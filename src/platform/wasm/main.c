@@ -169,6 +169,6 @@ int main() {
 		FS.mkdir('/data/states');
 		FS.syncfs(true, function (err) {});
 	);
-	emscripten_set_main_loop(testLoop, 0, 1);
+	emscripten_set_main_loop(testLoop, 60, 1);
 	return 0;
 }

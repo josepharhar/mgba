@@ -5,7 +5,14 @@
     <title>mGBA</title>
     <style>
       #canvas {
-        image-rendering: crisp-edges;
+        image-rendering: crisp-edges; /* TODO make this configurable */
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+      }
+      body {
+        margin: 0;
+        background-color: black;
       }
     </style>
     <script src="mgba.js"></script>
