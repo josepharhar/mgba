@@ -10,6 +10,7 @@ export default class MgbaGame extends HTMLElement {
   }
 
   connectedCallback() {
+    this.style = 'display:block; background-color: black';
     this.appendChild(this.canvas);
     this.canvas.classList.remove('disabled');
 
