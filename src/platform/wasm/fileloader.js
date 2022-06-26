@@ -1,6 +1,6 @@
 export function loadBuffer(name, buffer) {
-  Module.FS.writeFile(name, new Uint8Array(buffer));
-  Module.loadFile(name);
+  window.mgbaModule.FS.writeFile(name, new Uint8Array(buffer));
+  window.mgbaModule.loadFile(name);
 }
 
 export function loadFile(romFile) {
@@ -12,8 +12,8 @@ export function loadFile(romFile) {
 }
 
 export function saveFile(a) {
-  var save = Module.getSave();
-  a.download = Module.saveName;
+  var save = window.mgbaModule.getSave();
+  a.download = window.mgbaModule.saveName;
   var blob = new Blob([save], { type: 'application/octet-stream' });
   a.href = URL.createObjectURL(blob);
   setTimeout(function() {

@@ -100,6 +100,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	core->opts.savegamePath = strdup("/data/saves");
 	core->opts.savestatePath = strdup("/data/states");
 
+  // TODO also do savestates here somehow...
 	mCoreLoadFile(core, name);
 	mCoreConfigInit(&core->config, "wasm");
 	mInputMapInit(&core->inputMap, &GBAInputInfo);

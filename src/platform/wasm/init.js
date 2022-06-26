@@ -2,6 +2,7 @@ import MgbaMenu from './menu.js';
 
 export default class MgbaInit extends HTMLElement {
   constructor() {
+    super();
     this.attachShadow({mode: 'open'});
     const header = document.createElement('h2');
     header.textContent = 'loading mGBA...';
@@ -9,11 +10,14 @@ export default class MgbaInit extends HTMLElement {
   }
 
   connectedCallback() {
-    const params = {
-      canvas: (function() { return document.getElementById('canvas'); })()
-    }
-    mGBA(params).then(module => {
-      //document.getElementById('version').textContent = Module.version.projectName + ' ' + Module.version.projectVersion;
+    window.mgbaModule = {
+      //canvas: (function() { return document.getElementById('canvas'); })()
+      canvas: document.getElementById('canvas')
+    };
+    mGBA(window.mgbaModule).then(() => {
+      const parent = this.parentNode;
+      this.remove();
+      parent.appendChild(document.createElement('mgba-menu'));
     });
   }
 };
