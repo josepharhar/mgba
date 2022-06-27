@@ -5,13 +5,11 @@ export default class MgbaGame extends HTMLElement {
     super();
     this.attachShadow({mode: 'open'});
     this.canvas = document.getElementById('canvas');
-    this.canvasSlot = document.createElement('slot');
-    this.shadowRoot.appendChild(this.canvasSlot);
   }
 
   connectedCallback() {
     this.style = 'display:block; background-color: black';
-    this.appendChild(this.canvas);
+    //this.appendChild(this.canvas);
     this.canvas.classList.remove('disabled');
 
     if (!this.file)

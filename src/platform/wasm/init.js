@@ -1,4 +1,5 @@
 import MgbaMenu from './menu.js';
+import MgbaSettings from './settings.js';
 
 export default class MgbaInit extends HTMLElement {
   constructor() {
@@ -22,6 +23,7 @@ export default class MgbaInit extends HTMLElement {
       window.Module._setMainLoopTiming(0, 16);
 
       parent.appendChild(document.createElement('mgba-menu'));
+      parent.appendChild(document.createElement('mgba-settings'));
     });
   }
 };
