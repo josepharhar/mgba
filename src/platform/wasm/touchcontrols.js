@@ -9,7 +9,26 @@ export default class MgbaTouchControls extends HTMLElement {
         bottom: 0;
         left: 0;
         right: 0;
+
         display: flex;
+	flex-basis: auto;
+	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
+      }
+
+      .region {
+        display: flex;
+	flex-direction: column;
+	padding: 32px;
+      }
+
+      .shoulder {
+        display: flex;
+	align-items: flex-start;
+      }
+      .shoulder-left {
+        align-items: center;
       }
     `;
     this.shadowRoot.appendChild(style);
