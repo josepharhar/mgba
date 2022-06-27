@@ -28,11 +28,24 @@ static SDL_Texture* tex = NULL;
 static void _log(struct mLogger*, int category, enum mLogLevel level, const char* format, va_list args);
 static struct mLogger logCtx = { .log = _log };
 
+EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
+  printf("setMainLoopTiming mode: %d, value: %d\n");
+  emscripten_set_main_loop_timing(mode, value);
+}
+
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
-	if (event->keysym.sym == SDLK_TAB) {
-		emscripten_set_main_loop_timing(event->type == SDL_KEYDOWN ? EM_TIMING_SETTIMEOUT : EM_TIMING_RAF, 0);
+	/*if (event->keysym.sym == SDLK_TAB && event->type == SDL_KEYDOWN) {
+    int mode = -1;
+    int value = -1;
+    emscripten_get_main_loop_timing(&mode, &value);
+    if (value) {
+      value = 0; // unbounded
+    } else {
+      value = 60; // 60fps
+    }
+    emscripten_set_main_loop_timing(EM_TIMING_RAF, value);
 		return;
-	}
+	}*/
 	int key = -1;
 	if (!(event->keysym.mod & ~(KMOD_NUM | KMOD_CAPS))) {
 		key = mInputMapKey(&core->inputMap, SDL_BINDING_KEY, event->keysym.sym);
