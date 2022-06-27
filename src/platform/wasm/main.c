@@ -29,7 +29,7 @@ static void _log(struct mLogger*, int category, enum mLogLevel level, const char
 static struct mLogger logCtx = { .log = _log };
 
 EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
-  printf("setMainLoopTiming mode: %d, value: %d\n");
+  printf("setMainLoopTiming mode: %d, value: %d\n", mode, value);
   emscripten_set_main_loop_timing(mode, value);
 }
 

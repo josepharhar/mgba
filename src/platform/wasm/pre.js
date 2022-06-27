@@ -18,3 +18,6 @@ Module.getSave = function() {
 console.log('pre.js window: ', window);
 console.log('pre.js this: ', this);
 console.log('pre.js Module: ', Module);
+console.log('pre.js cwrap: ', cwrap);
+console.log('pre.js Module.cwrap: ' , cwrap);
+window.cwrap = cwrap;

@@ -1,6 +1,6 @@
 export function loadBuffer(name, buffer) {
-  window.mgbaModule.FS.writeFile(name, new Uint8Array(buffer));
-  window.mgbaModule.loadFile(name);
+  window.Module.FS.writeFile(name, new Uint8Array(buffer));
+  window.Module.loadFile(name);
 }
 
 export function loadFile(romFile) {
@@ -17,8 +17,8 @@ export function loadFile(romFile) {
 // Or maybe we could just save to localStorage every couple seconds if it doesnt hurt performance.
 // Would also be good to get a signal from mGBA when the game is saved from within the game.
 export function saveFile(a) {
-  var save = window.mgbaModule.getSave();
-  a.download = window.mgbaModule.saveName;
+  var save = window.Module.getSave();
+  a.download = window.Module.saveName;
   var blob = new Blob([save], { type: 'application/octet-stream' });
   a.href = URL.createObjectURL(blob);
   setTimeout(function() {
