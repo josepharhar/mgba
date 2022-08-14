@@ -17,24 +17,104 @@ mgba-game {
 
 
 mgba-game .button-container {
-  height: 100px;
-  display: block;
+  position: fixed;
+  bottom: 0;
+  /* TODO what does left and right 0 do? */
+  left: 0;
+  right: 0;
+
+  display: grid;
+  grid-template-rows: 1fr auto auto auto;
+  min-height: 100vh;
+
   z-index: 5;
-  opacity: .75;
-  max-width: 400px;
+  opacity: 0.7;
+  user-select: none;
+  font-family: sans-serif;
+
+  /*max-width: 400px;
   width: 100vw;
   margin: auto;
   margin-bottom: 26px;
-  user-select: none;
-
-  font-family: sans-serif;
-
-  /*position: relative;*/
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
+  user-select: none;*/
 }
+
+mgba-game .shoulder-row {
+  display: flex;
+  justify-content: space-between;
+}
+mgba-game .L,
+mgba-game .R {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+
+  width: 50px;
+  height: 50px;
+}
+mgba-game .L::before {
+  content: 'L';
+}
+mgba-game .R::before {
+  content: 'R';
+}
+
+mgba-game .controls-row {
+  display: flex;
+  justify-content: space-between;
+}
+mgba-game .dpad {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+mgba-game .dpad > div {
+  width: 50px;
+  height: 50px;
+  border: 1px solid green;
+}
+mgba-game .ab-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+mgba-game .ab-container > div {
+  width: 70px;
+  height: 70px;
+  border: 1px solid green;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+mgba-game .A::before {
+  content: 'A';
+}
+mgba-game .B::before {
+  content: 'B';
+}
+
+mgba-game .menu-row {
+  /*display: flex;
+  justify-content: space-between;*/
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+mgba-game .menu::before {
+  content: 'MENU';
+}
+mgba-game .menu {
+}
+mgba-game .select-start-container {
+  display: flex;
+}
+mgba-game .select::before {
+  content: 'SELECT';
+}
+mgba-game .start::before {
+  content: 'START';
+}
+
 
 mgba-game .fake-button.A::before {
   content: 'A';
@@ -49,6 +129,12 @@ mgba-game .fake-button.Select::before {
 mgba-game .fake-button.Start::before {
   font-size: 10px;
   content: 'START';
+}
+mgba-game .fake-button.R::before {
+  content: 'R';
+}
+mgba-game .fake-button.L::before {
+  content: 'L';
 }
 mgba-game .fake-button {
   background: #999;

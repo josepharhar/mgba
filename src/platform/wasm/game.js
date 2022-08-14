@@ -44,10 +44,85 @@ export default class MgbaGame extends HTMLElement {
     window.Module._buttonUnpress(buttonNameToId.get(name));
   }
 
+  addShoulderRow(container) {
+    const shoulderRow = document.createElement('div');
+    container.appendChild(shoulderRow);
+    shoulderRow.classList.add('shoulder-row');
+
+    const L = document.createElement('div');
+    L.classList.add('L');
+    shoulderRow.appendChild(L);
+
+    const R = document.createElement('div');
+    R.classList.add('R');
+    shoulderRow.appendChild(R);
+  }
+
+  addControlsRow(container) {
+    const controlsRow = document.createElement('div');
+    container.appendChild(controlsRow);
+    controlsRow.classList.add('controls-row');
+
+    const dpad = document.createElement('div');
+    dpad.classList.add('dpad');
+    controlsRow.appendChild(dpad);
+    for (let i = 0; i < 9; i++) {
+      dpad.appendChild(document.createElement('div'));
+    }
+
+    const abContainer = document.createElement('div');
+    abContainer.classList.add('ab-container');
+    controlsRow.appendChild(abContainer);
+    abContainer.appendChild(document.createElement('div'));
+    const a = document.createElement('div');
+    a.classList.add('A');
+    abContainer.appendChild(a);
+    const b = document.createElement('div');
+    b.classList.add('B');
+    abContainer.appendChild(b);
+    abContainer.appendChild(document.createElement('div'));
+  }
+
+  addMenuRow(container) {
+    const menuRow = document.createElement('div');
+    container.appendChild(menuRow);
+    menuRow.classList.add('menu-row');
+
+    const menu = document.createElement('div');
+    menu.classList.add('menu');
+    menuRow.appendChild(menu);
+
+    const selectStartContainer = document.createElement('div');
+    selectStartContainer.classList.add('select-start-container');
+    menuRow.appendChild(selectStartContainer);
+
+    const select = document.createElement('div');
+    select.classList.add('select');
+    selectStartContainer.appendChild(select);
+
+    const start = document.createElement('div');
+    start.classList.add('start');
+    selectStartContainer.appendChild(start);
+
+    menuRow.appendChild(document.createElement('div'));
+  }
+
   addButtons() {
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container');
-    for (const name of ['B', 'A', 'Select', 'Start']) {
+
+    const bufferRow = document.createElement('div');
+    buttonContainer.appendChild(bufferRow);
+    this.addShoulderRow(buttonContainer);
+    this.addControlsRow(buttonContainer);
+    this.addMenuRow(buttonContainer);
+
+
+
+
+
+
+    /*for (const name of ['B', 'A', 'Select', 'Start']) {
       const button = document.createElement('div');
       button.classList.add('fake-button');
       button.classList.add(name);
@@ -74,11 +149,6 @@ export default class MgbaGame extends HTMLElement {
     const dpad = document.createElement('div');
     dpad.classList.add('d-pad');
     buttonContainer.appendChild(dpad);
-    for (const name of ['Up', 'Down', 'Left', 'Right']) {
-      /*keyManager.listen(name, pressed => {
-        dpad.classList.toggle(name, pressed);
-      });*/
-    }
     dpad.onpointermove = event => {
       if (!event.buttons && event.pointerType === 'mouse')
         return;
@@ -132,7 +202,7 @@ export default class MgbaGame extends HTMLElement {
     const clearDpad = () => {
       for (const name of ['Up', 'Down', 'Left', 'Right'])
         this.buttonUnpress(name);
-    }
+    }*/
     this.appendChild(buttonContainer);
   }
 }
