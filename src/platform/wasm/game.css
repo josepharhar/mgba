@@ -1,0 +1,15 @@
+mgba-game {
+  display: block;
+}
+
+#canvas {
+  image-rendering: crisp-edges; /* TODO make this configurable */
+  width: 100vw;
+  object-fit: contain;
+  display: block;
+  position: absolute;
+  background-color: black;
+}
+#canvas.disabled {
+  display: none;
+}

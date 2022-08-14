@@ -1,15 +1,7 @@
 import * as FileLoader from './fileloader.js';
 
 export default class MgbaGame extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({mode: 'open'});
-    this.canvas = document.getElementById('canvas');
-  }
-
   connectedCallback() {
-    this.style = 'display:block; background-color: black';
-    //this.appendChild(this.canvas);
     this.canvas.classList.remove('disabled');
 
     if (!this.file)
@@ -19,7 +11,10 @@ export default class MgbaGame extends HTMLElement {
 
   disconnectedCallback() {
     this.canvas.classList.add('disabled');
-    document.body.appendChild(this.canvas);
+  }
+
+  get canvas() {
+    return document.getElementById('canvas');
   }
 };
 

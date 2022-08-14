@@ -1,10 +1,16 @@
+:root {
+  /* TODO make this configurable */
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+}
+
 button {
   font-size: 24px;
   margin: 10px;
   padding: 10px;
-}
-
-#canvas {
 }
 
 /* TODO move mgba-* settings to individual files */
