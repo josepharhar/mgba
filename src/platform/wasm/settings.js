@@ -1,31 +1,5 @@
-export default class MgbaSettings extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({mode: 'open'});
-
-    const button = document.createElement('button');
-    button.textContent = 'settings';
-    button.style = `
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    `;
-    this.shadowRoot.appendChild(button);
-
-    button.onclick = () => {
-      this.shadowRoot.appendChild(document.createElement('mgba-settings-dialog'));
-    };
-  }
-};
-
-customElements.define('mgba-settings', MgbaSettings);
-
-class MgbaSettingsDialog extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({mode: 'open'});
-
+export default class MgbaSettingsDialog extends HTMLElement {
+  connectedCallback() {
     const container = document.createElement('div');
     container.style = `
       display: block;
@@ -41,7 +15,7 @@ class MgbaSettingsDialog extends HTMLElement {
       background-color: white;
       padding: 15px;
     `;
-    this.shadowRoot.appendChild(container);
+    this.appendChild(container);
 
     const title = document.createElement('h1');
     title.textContent = 'Settings';

@@ -1,0 +1,16 @@
+button {
+  font-size: 24px;
+  margin: 10px;
+  padding: 10px;
+}
+
+#canvas {
+}
+
+/* TODO move mgba-* settings to individual files */
+mgba-menu > button.settings {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}

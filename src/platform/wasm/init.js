@@ -1,16 +1,11 @@
 import MgbaMenu from './menu.js';
-import MgbaSettings from './settings.js';
 
 export default class MgbaInit extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({mode: 'open'});
+  connectedCallback() {
     const header = document.createElement('h2');
     header.textContent = 'loading mGBA...';
-    this.shadowRoot.appendChild(header);
-  }
+    this.appendChild(header);
 
-  connectedCallback() {
     if (!window.Module)
       window.Module = {};
     window.Module.canvas = document.getElementById('canvas');
@@ -23,7 +18,6 @@ export default class MgbaInit extends HTMLElement {
       window.Module._setMainLoopTiming(0, 16);
 
       parent.appendChild(document.createElement('mgba-menu'));
-      parent.appendChild(document.createElement('mgba-settings'));
     });
   }
 };
