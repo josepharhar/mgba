@@ -1,5 +1,22 @@
 import * as FileLoader from './fileloader.js';
 
+// TODO I wonder if i could have an integration test for these mappings...
+const buttonNameToId = new Map();
+buttonNameToId.set('A', 0);
+buttonNameToId.set('B', 1);
+buttonNameToId.set('Select', 2);
+buttonNameToId.set('Start', 3);
+buttonNameToId.set('Right', 4);
+buttonNameToId.set('Left', 5);
+buttonNameToId.set('Up', 6);
+buttonNameToId.set('Down', 7);
+buttonNameToId.set('R', 8);
+buttonNameToId.set('L', 9);
+const buttonIdToName = new Map();
+for (const [key, value] of buttonNameToId) {
+  buttonIdToName.set(value, key);
+}
+
 export default class MgbaGame extends HTMLElement {
   connectedCallback() {
     this.addButtons();
@@ -20,11 +37,12 @@ export default class MgbaGame extends HTMLElement {
   }
 
   buttonPress(name) {
-    console.log('buttonPress ' + name);
+    console.log('buttonPress name: ' + name + ', id: ' + buttonNameToId.get(name));
+    window.Module._buttonPress(buttonNameToId.get(name));
   }
 
   buttonUnpress(name) {
-    console.log('buttonUnpress ' + name);
+    window.Module._buttonUnpress(buttonNameToId.get(name));
   }
 
   addButtons() {
@@ -83,6 +101,7 @@ export default class MgbaGame extends HTMLElement {
       clearDpad();
     };
     const updateDpad = (event) => {
+      console.log('updateDpad');
       const x = event.offsetX / dpad.offsetWidth;
       const y = event.offsetY / dpad.offsetHeight;
       const threshold = 0.25;
@@ -102,6 +121,7 @@ export default class MgbaGame extends HTMLElement {
       } else if (y > 1 - threshold) {
         pressed.Down = true;
       }
+      console.log('updateDpad pressed: ', pressed);
       for (const name of ['Left', 'Right', 'Up', 'Down']) {
         if (pressed[name]) {
           this.buttonPress(name);

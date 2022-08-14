@@ -33,6 +33,13 @@ EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
   emscripten_set_main_loop_timing(mode, value);
 }
 
+EMSCRIPTEN_KEEPALIVE void buttonPress(int id) {
+  core->addKeys(core, 1 << id);
+}
+EMSCRIPTEN_KEEPALIVE void buttonUnpress(int id) {
+  core->clearKeys(core, 1 << id);
+}
+
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
 	/*if (event->keysym.sym == SDLK_TAB && event->type == SDL_KEYDOWN) {
     int mode = -1;
@@ -50,6 +57,8 @@ static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
 	if (!(event->keysym.mod & ~(KMOD_NUM | KMOD_CAPS))) {
 		key = mInputMapKey(&core->inputMap, SDL_BINDING_KEY, event->keysym.sym);
 	}
+  printf("handleKeypressCore key: %d\n", key);
+  printf("handleKeypressCore event->keysym.sym: %d\n", event->keysym.sym);
 	if (key != -1) {
 		if (event->type == SDL_KEYDOWN) {
 			core->addKeys(core, 1 << key);
@@ -65,6 +74,7 @@ static void handleKeypress(const struct SDL_KeyboardEvent* event) {
 }
 
 void testLoop() {
+  // TODO replace this input handling with buttonPress
 	union SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
@@ -119,6 +129,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	mInputMapInit(&core->inputMap, &GBAInputInfo);
 	mDirectorySetMapOptions(&core->dirs, &core->opts);
 	mCoreAutoloadSave(core);
+  // TODO if this is for detecting keypresses in the webpage, I should probably try to remove it.
 	mSDLInitBindingsGBA(&core->inputMap);
 
 	unsigned w, h;
