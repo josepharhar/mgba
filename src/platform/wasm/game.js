@@ -37,7 +37,6 @@ export default class MgbaGame extends HTMLElement {
   }
 
   buttonPress(name) {
-    console.log('buttonPress name: ' + name + ', id: ' + buttonNameToId.get(name));
     window.Module._buttonPress(buttonNameToId.get(name));
   }
 
@@ -48,7 +47,7 @@ export default class MgbaGame extends HTMLElement {
   addButtons() {
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container');
-    for (const name of ['B', 'A', 'Start', 'Select']) {
+    for (const name of ['B', 'A', 'Select', 'Start']) {
       const button = document.createElement('div');
       button.classList.add('fake-button');
       button.classList.add(name);
@@ -101,27 +100,27 @@ export default class MgbaGame extends HTMLElement {
       clearDpad();
     };
     const updateDpad = (event) => {
-      console.log('updateDpad');
-      const x = event.offsetX / dpad.offsetWidth;
-      const y = event.offsetY / dpad.offsetHeight;
-      const threshold = 0.25;
       const pressed = {
         Left: false,
         Right: false,
         Up: false,
         Down: false,
       }
-      if (x < threshold) {
+      // The inner 15x15 should be a dead zone
+      // The whole thing is 112x112
+      const deadzoneWidth = 22;
+      const lowerThreshold = (dpad.offsetWidth / 2) - (deadzoneWidth / 2);
+      const upperThreshold = (dpad.offsetWidth / 2) + (deadzoneWidth / 2);
+      if (event.offsetX < lowerThreshold) {
         pressed.Left = true;
-      } else if (x > 1 - threshold) {
+      } else if (event.offsetX > upperThreshold) {
         pressed.Right = true;
       }
-      if (y < threshold) {
+      if (event.offsetY < lowerThreshold) {
         pressed.Up = true;
-      } else if (y > 1 - threshold) {
+      } else if (event.offsetY > upperThreshold) {
         pressed.Down = true;
       }
-      console.log('updateDpad pressed: ', pressed);
       for (const name of ['Left', 'Right', 'Up', 'Down']) {
         if (pressed[name]) {
           this.buttonPress(name);

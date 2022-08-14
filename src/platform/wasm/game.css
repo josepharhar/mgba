@@ -44,11 +44,11 @@ mgba-game .fake-button.B::before {
 }
 mgba-game .fake-button.Select::before {
   font-size: 10px;
-  content: 'START';
+  content: 'SELECT';
 }
 mgba-game .fake-button.Start::before {
   font-size: 10px;
-  content: 'SELECT';
+  content: 'START';
 }
 mgba-game .fake-button {
   background: #999;
