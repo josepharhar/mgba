@@ -104,9 +104,25 @@ mgba-game .menu::before {
   content: 'MENU';
 }
 mgba-game .menu {
+  height: 70px;
+  width: 70px;
+
+  border: 1px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 mgba-game .select-start-container {
   display: flex;
+}
+mgba-game .select,
+mgba-game .start {
+  border: 1px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 70px;
 }
 mgba-game .select::before {
   content: 'SELECT';
@@ -129,6 +145,10 @@ mgba-game .fake-button.Select::before {
 mgba-game .fake-button.Start::before {
   font-size: 10px;
   content: 'START';
+}
+mgba-game .fake-button.R,
+mgba-game .fake-button.L {
+  border: 1px solid green;
 }
 mgba-game .fake-button.R::before {
   content: 'R';
