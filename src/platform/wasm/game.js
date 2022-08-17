@@ -110,6 +110,7 @@ export default class MgbaGame extends HTMLElement {
   addButtons() {
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('button-container');
+    this.appendChild(buttonContainer);
 
     const bufferRow = document.createElement('div');
     buttonContainer.appendChild(bufferRow);
@@ -117,93 +118,94 @@ export default class MgbaGame extends HTMLElement {
     this.addControlsRow(buttonContainer);
     this.addMenuRow(buttonContainer);
 
+    const A = this.querySelector('.A');
+    const B = this.querySelector('.B');
+    const L = this.querySelector('.L');
+    const R = this.querySelector('.R');
+    const start = this.querySelector('.start');
+    const select = this.querySelector('.select');
 
+    [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select']].forEach(([element, buttonName]) => {
+      ['mousedown', 'touchstart'].forEach(eventName => {
+        element.addEventListener(eventName, () => {
+          this.buttonPress(element.className);
+          element.classList.add('pressed');
+        });
+      });
+      ['mouseup', 'touchend', 'touchcancel'].forEach(eventName => {
+        element.addEventListener(eventName, () => {
+          this.buttonUnpress(element.className);
+          element.classList.remove('pressed');
+        });
+      });
+    });
 
-
-
-
-    /*for (const name of ['B', 'A', 'Select', 'Start']) {
-      const button = document.createElement('div');
-      button.classList.add('fake-button');
-      button.classList.add(name);
-      buttonContainer.appendChild(button);
-      // TODO replace all mouse and touch events with pointer events which count for both
-      // TODO these used to have event.preventDefault. Should I add it back?
-      button.onmousedown = event => {
-        this.buttonPress(name);
-        button.classList.add('pressed');
-      };
-      button.onmouseup = button.onmouseout = event => {
-        this.buttonUnpress(name);
-        button.classList.remove('pressed');
-      }
-      button.ontouchstart = event => {
-        this.buttonPress(name);
-        button.classList.add('pressed');
-      };
-      button.ontouchend = button.ontouchcancel = button.ontouchend = event => {
-        this.buttonUnpress(name);
-        button.classList.remove('pressed');
-      };
-    }
-    const dpad = document.createElement('div');
-    dpad.classList.add('d-pad');
-    buttonContainer.appendChild(dpad);
-    dpad.onpointermove = event => {
-      if (!event.buttons && event.pointerType === 'mouse')
-        return;
-      updateDpad(event);
-    };
-    dpad.onpointerup = event => {
-      clearDpad();
-    };
-    dpad.onpointerdown = event => {
-      updateDpad(event);
-      event.preventDefault();
-    };
-    dpad.onpointerenter = event => {
-      if (!event.buttons && event.pointerType === 'mouse')
-        return;
-      updateDpad(event);
-    };
-    dpad.onpointerleave = event => {
-      clearDpad();
-    };
-    const updateDpad = (event) => {
+    const dpad = this.querySelector('.dpad');
+    const dpadUpLeft = dpad.children[0];
+    const dpadUp = dpad.children[1];
+    const dpadUpRight = dpad.children[2];
+    const dpadLeft = dpad.children[3];
+    const dpadRight = dpad.children[5];
+    const dpadDownLeft = dpad.children[6];
+    const dpadDown = dpad.children[7];
+    const dpadDownRight = dpad.children[8];
+    const updateDpad = event => {
       const pressed = {
-        Left: false,
-        Right: false,
         Up: false,
         Down: false,
+        Left: false,
+        Right: false
+      };
+      switch (event.target) {
+        case dpadUpLeft:
+          pressed.Left = true;
+          pressed.Up = true;
+          break;
+        case dpadUp:
+          pressed.Up = true;
+          break;
+        case dpadUpRight:
+          pressed.Right = true;
+          pressed.Up = true;
+          break;
+        case dpadLeft:
+          pressed.Left = true;
+          break;
+        case dpadRight:
+          pressed.Right = true;
+          break;
+        case dpadDownLeft:
+          pressed.Down = true;
+          pressed.Left = true;
+          break;
+        case dpadDown:
+          pressed.Down = true;
+          break;
+        case dpadDownRight:
+          pressed.Down = true;
+          pressed.Right = true;
+          break;
       }
-      // The inner 15x15 should be a dead zone
-      // The whole thing is 112x112
-      const deadzoneWidth = 22;
-      const lowerThreshold = (dpad.offsetWidth / 2) - (deadzoneWidth / 2);
-      const upperThreshold = (dpad.offsetWidth / 2) + (deadzoneWidth / 2);
-      if (event.offsetX < lowerThreshold) {
-        pressed.Left = true;
-      } else if (event.offsetX > upperThreshold) {
-        pressed.Right = true;
-      }
-      if (event.offsetY < lowerThreshold) {
-        pressed.Up = true;
-      } else if (event.offsetY > upperThreshold) {
-        pressed.Down = true;
-      }
-      for (const name of ['Left', 'Right', 'Up', 'Down']) {
+      for (const name of ['Up', 'Down', 'Left', 'Right']) {
         if (pressed[name]) {
           this.buttonPress(name);
         } else {
           this.buttonUnpress(name);
         }
       }
-    }
+    };
     const clearDpad = () => {
       for (const name of ['Up', 'Down', 'Left', 'Right'])
         this.buttonUnpress(name);
-    }*/
-    this.appendChild(buttonContainer);
+    };
+    dpad.onpointermove = event => {
+      if (!event.buttons && event.pointerType === 'mouse')
+        return;
+      updateDpad(event);
+    };
+    dpad.onpointerdown = event => updateDpad(event);
+    dpad.onpointerup = () => clearDpad();
+    dpad.onpointerleave = () => clearDpad();
   }
 }
 
