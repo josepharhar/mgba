@@ -1,4 +1,5 @@
 import * as FileLoader from './fileloader.js';
+import MgbaGameLoader from './gamemenu.js';
 
 // TODO I wonder if i could have an integration test for these mappings...
 const buttonNameToId = new Map();
@@ -91,6 +92,9 @@ export default class MgbaGame extends HTMLElement {
     const menu = document.createElement('div');
     menu.classList.add('menu');
     menuRow.appendChild(menu);
+    menu.onclick = () => {
+      this.appendChild(document.createElement('mgba-game-menu'));
+    };
 
     const selectStartContainer = document.createElement('div');
     selectStartContainer.classList.add('select-start-container');

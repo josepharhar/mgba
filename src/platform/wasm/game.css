@@ -78,6 +78,8 @@ mgba-game .ab-container {
   grid-template-columns: auto auto;
 }
 mgba-game .ab-container > div {
+  width: calc(3*min(75px,15vh));
+  height: calc(3*min(75px,15vh));
   width: 70px;
   height: 70px;
   border: 1px solid green;
