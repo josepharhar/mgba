@@ -2,16 +2,21 @@
 set -e
 set -x
 
-rm -rf build-wasm
+#rm -rf build-wasm
 #docker run --rm -t -v $PWD:/home/mgba/src mgba/wasm
 
-# running cmake with this file already here consistently makes the build fail
-rm -rf $HOME/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libSDL2.a
+if [ ! -d "build-wasm" ]
+then
+  # running cmake with this file already here consistently makes the build fail
+  rm -rf $HOME/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libSDL2.a
+  mkdir build-wasm
+  cd build-wasm
+  source $HOME/emsdk/emsdk_env.sh
+  emcmake cmake ..
+else
+  cd build-wasm
+fi
 
-source $HOME/emsdk/emsdk_env.sh
-mkdir build-wasm
-cd build-wasm
-emcmake cmake ..
 make -j4 install DESTDIR=install
 cd ..
 
