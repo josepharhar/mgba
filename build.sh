@@ -5,6 +5,9 @@ set -x
 rm -rf build-wasm
 #docker run --rm -t -v $PWD:/home/mgba/src mgba/wasm
 
+# running cmake with this file already here consistently makes the build fail
+rm -rf $HOME/emsdk/upstream/emscripten/cache/sysroot/lib/wasm32-emscripten/libSDL2.a
+
 source $HOME/emsdk/emsdk_env.sh
 mkdir build-wasm
 cd build-wasm
