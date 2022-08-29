@@ -1,4 +1,5 @@
 import * as idb from './node_modules/idb-keyval/dist/index.js';
+import MgbaSettingsDialog from './settings.js';
 
 export default class MgbaGameMenu extends HTMLElement {
   connectedCallback() {
@@ -10,6 +11,7 @@ export default class MgbaGameMenu extends HTMLElement {
     dialog.appendChild(closeButton);
     closeButton.onclick = () => {
       dialog.close();
+      this.remove();
     };
 
     const saveButton = document.createElement('button');
@@ -24,6 +26,13 @@ export default class MgbaGameMenu extends HTMLElement {
 
       console.log('saving complete');
       saveButton.disabled = false;
+    };
+
+    const settingsButton = document.createElement('button');
+    settingsButton.textContent = 'Settings';
+    settingsButton.onclick = () => {
+      this.remove();
+      document.body.appendChild(document.createElement('mgba-settings-dialog'));
     };
 
     const quitButton = document.createElement('button');

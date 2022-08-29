@@ -39,6 +39,14 @@ EMSCRIPTEN_KEEPALIVE void buttonPress(int id) {
 EMSCRIPTEN_KEEPALIVE void buttonUnpress(int id) {
   core->clearKeys(core, 1 << id);
 }
+EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
+  printf("setVolume: %d\n", volume);
+  core->opts.volume = volume;
+  // TODO do i need to run something to actually apply the volume?
+}
+EMSCRIPTEN_KEEPALIVE int getVolume() {
+  return core->opts.volume;
+}
 
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
 	/*if (event->keysym.sym == SDLK_TAB && event->type == SDL_KEYDOWN) {
@@ -123,6 +131,9 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	core->opts.savegamePath = strdup("/data/saves");
 	core->opts.savestatePath = strdup("/data/states");
 
+  // 0x100 is max volume i think
+  core->opts.volume = 0;
+
   // TODO also do savestates here somehow...
 	mCoreLoadFile(core, name);
 	mCoreConfigInit(&core->config, "wasm");
@@ -131,6 +142,8 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	mCoreAutoloadSave(core);
   // TODO if this is for detecting keypresses in the webpage, I should probably try to remove it.
 	mSDLInitBindingsGBA(&core->inputMap);
+
+  // TODO how does all of this window dimensions code interact with the actual page...?
 
 	unsigned w, h;
 	core->desiredVideoDimensions(core, &w, &h);

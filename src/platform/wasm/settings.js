@@ -1,33 +1,36 @@
 export default class MgbaSettingsDialog extends HTMLElement {
   connectedCallback() {
-    const container = document.createElement('div');
-    container.style = `
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      width: 75vw;
-      height: 75vh;
-      border: 1px solid black;
-      background-color: white;
-      padding: 15px;
-    `;
-    this.appendChild(container);
+    const dialog = document.createElement('dialog');
+    this.appendChild(dialog);
 
     const title = document.createElement('h1');
     title.textContent = 'Settings';
     title.style = `
       text-align: center;
     `;
-    container.appendChild(title);
+    dialog.appendChild(title);
 
     const closeButton = document.createElement('button');
-    closeButton.textContent = 'close settings';
-    closeButton.onclick = () => this.remove();
-    container.appendChild(closeButton);
+    closeButton.textContent = 'Close settings';
+    dialog.appendChild(closeButton);
+    closeButton.onclick = () => {
+      dialog.close();
+      this.remove();
+    };
+
+    const volumeLabel = document.createElement('label');
+    volumeLabel.textContent = 'Volume';
+    dialog.appendChild(volumeLabel);
+    const volumeInput = document.createElement('input');
+    volumeLabel.appendChild(volumeInput);
+    volumeInput.type = 'range';
+    volumeInput.min = 0;
+    volumeInput.max = 0x100;
+    volumeInput.oninput = () => {
+      window.Module._setVolume(volumeInput.value);
+    };
+
+    dialog.showModal();
   }
 };
 
