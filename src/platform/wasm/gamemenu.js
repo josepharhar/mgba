@@ -34,6 +34,7 @@ export default class MgbaGameMenu extends HTMLElement {
       this.remove();
       document.body.appendChild(document.createElement('mgba-settings-dialog'));
     };
+    dialog.appendChild(settingsButton);
 
     const quitButton = document.createElement('button');
     quitButton.textContent = 'Quit';

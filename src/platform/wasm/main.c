@@ -43,6 +43,8 @@ EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
   printf("setVolume: %d\n", volume);
   core->opts.volume = volume;
   // TODO do i need to run something to actually apply the volume?
+	mCoreConfigMap(&core->config, &core->opts);
+  mCoreConfigSave(&core->config);
 }
 EMSCRIPTEN_KEEPALIVE int getVolume() {
   return core->opts.volume;
@@ -132,6 +134,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	core->opts.savestatePath = strdup("/data/states");
 
   // 0x100 is max volume i think
+  // wait... changing this doesnt even affect the volume!
   core->opts.volume = 0;
 
   // TODO also do savestates here somehow...
