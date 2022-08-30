@@ -438,6 +438,7 @@ struct VDirEntry* _vdzListNext(struct VDir* vd) {
 }
 
 struct VFile* _vdzOpenFile(struct VDir* vd, const char* path, int mode) {
+  printf("_vdzOpenFile path: %s\n", path);
 	UNUSED(mode);
 	// TODO: support truncating, appending and creating, and write
 	struct VDirZip* vdz = (struct VDirZip*) vd;

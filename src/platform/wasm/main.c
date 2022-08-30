@@ -53,6 +53,9 @@ static int save_state_slot = 1;
 EMSCRIPTEN_KEEPALIVE void saveState() {
   bool retval = mCoreSaveState(core, save_state_slot, /*flags=*/0);
   printf("saveState retval: %d\n", retval);
+
+  /*struct VFile* vf = mCoreGetState(core,
+  mCoreSaveStateNamed(core, */
 }
 EMSCRIPTEN_KEEPALIVE void loadState() {
   bool retval = mCoreLoadState(core, save_state_slot, /*flags=*/0);
