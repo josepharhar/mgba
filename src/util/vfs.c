@@ -15,7 +15,9 @@
 #endif
 
 struct VFile* VFileOpen(const char* path, int flags) {
+  printf("vfs.c VFileOpen path: %s\n", path);
 #ifdef USE_VFS_FILE
+  2 = asdf;
 	const char* chflags;
 	switch (flags & O_ACCMODE) {
 	case O_WRONLY:

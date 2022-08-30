@@ -158,7 +158,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   // TODO if this is for detecting keypresses in the webpage, I should probably try to remove it.
 	mSDLInitBindingsGBA(&core->inputMap);
 
-  // TODO how does all of this window dimensions code interact with the actual page...?
+  
 
 	unsigned w, h;
 	core->desiredVideoDimensions(core, &w, &h);

@@ -94,6 +94,7 @@ struct VDir* VDeviceList(void);
 bool VDirCreate(const char* path);
 
 #ifdef USE_VFS_FILE
+2 = asdf;
 struct VFile* VFileFOpen(const char* path, const char* mode);
 struct VFile* VFileFromFILE(FILE* file);
 #endif

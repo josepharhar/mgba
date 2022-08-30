@@ -27,6 +27,7 @@ static ssize_t _vffSize(struct VFile* vf);
 static bool _vffSync(struct VFile* vf, void* buffer, size_t size);
 
 struct VFile* VFileFOpen(const char* path, const char* mode) {
+  printf("vfs-file.c VFileFOpen path: %s, mode: %d\n", path, mode);
 	if (!path && !mode) {
 		return 0;
 	}
@@ -116,6 +117,7 @@ static void _vffUnmap(struct VFile* vf, void* memory, size_t size) {
 }
 
 static void _vffTruncate(struct VFile* vf, size_t size) {
+  printf("vfs-file.c _vffTruncate size: %d\n", size);
 	struct VFileFILE* vff = (struct VFileFILE*) vf;
 	long pos = ftell(vff->file);
 	fseek(vff->file, 0, SEEK_END);

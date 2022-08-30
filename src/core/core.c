@@ -261,7 +261,7 @@ bool mCoreAutoloadCheats(struct mCore* core) {
 
 bool mCoreSaveState(struct mCore* core, int slot, int flags) {
 	struct VFile* vf = mCoreGetState(core, slot, true);
-  printf(
+  printf("mCoreSaveState vf: \n");
 	if (!vf) {
 		return false;
 	}
@@ -297,6 +297,8 @@ struct VFile* mCoreGetState(struct mCore* core, int slot, bool write) {
 		return NULL;
 	}
 	char name[PATH_MAX + 14]; // Quash warning
+  printf("mCoreGetState core->dirs.baseName: %s\n", core->dirs.baseName);
+  printf("mCoreGetState core->dirs.state: %s\n", core->dirs.state);
 	snprintf(name, sizeof(name), "%s.ss%i", core->dirs.baseName, slot);
   printf("mCoreGetState filename: %s\n", name);
 	return core->dirs.state->openFile(core->dirs.state, name, write ? (O_CREAT | O_TRUNC | O_RDWR) : O_RDONLY);

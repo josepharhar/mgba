@@ -282,6 +282,7 @@ void _vfmUnmap(struct VFile* vf, void* memory, size_t size) {
 }
 
 void _vfmTruncate(struct VFile* vf, size_t size) {
+  printf("vfs-mem.c _vfmTruncate size: %d\n", size);
 	struct VFileMem* vfm = (struct VFileMem*) vf;
 	_vfmExpand(vfm, size);
 }
