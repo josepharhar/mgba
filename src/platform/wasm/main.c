@@ -49,6 +49,15 @@ EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
 EMSCRIPTEN_KEEPALIVE int getVolume() {
   return core->opts.volume;
 }
+static int save_state_slot = 1;
+EMSCRIPTEN_KEEPALIVE void saveState() {
+  bool retval = mCoreSaveState(core, save_state_slot, /*flags=*/0);
+  printf("saveState retval: %d\n", retval);
+}
+EMSCRIPTEN_KEEPALIVE void loadState() {
+  bool retval = mCoreLoadState(core, save_state_slot, /*flags=*/0);
+  printf("loadState retval: %d\n", retval);
+}
 
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
 	/*if (event->keysym.sym == SDLK_TAB && event->type == SDL_KEYDOWN) {
