@@ -27,3 +27,11 @@ export function saveFile(a) {
     a.href = '#';
   }, 0);
 }
+
+export async function syncfs() {
+  const err = await new Promise(resolve => {
+    window.Module.FS.syncfs(resolve);
+  });
+  if (err)
+    console.log('syncfs error: ', err);
+}

@@ -51,8 +51,10 @@ EMSCRIPTEN_KEEPALIVE void saveState(int slot) {
     printf("mCoreSaveState returned false! slot: %d\n", slot);
 }
 EMSCRIPTEN_KEEPALIVE void loadState(int slot) {
+  printf("loadState slot: %d\n", slot);
   if (!mCoreLoadState(core, slot, /*flags=*/0))
     printf("mCoreLoadState returned false! slot: %d\n", slot);
+  printf("loadState done\n");
 }
 
 EMSCRIPTEN_KEEPALIVE int getMainLoopTiming() {

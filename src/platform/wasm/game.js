@@ -45,7 +45,7 @@ export default class MgbaGame extends HTMLElement {
     if (!window.Module)
       window.Module = {};
     window.Module.canvas = this.canvas;
-    mGBA(window.Module).then(() => {
+    mGBA(window.Module).then(async () => {
       window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
       this.placeholder.remove();
       this.canvas.classList.remove('disabled');
@@ -53,10 +53,46 @@ export default class MgbaGame extends HTMLElement {
       if (!this.file)
         throw new Error('this.file not defined! this: ', this);
       FileLoader.loadFile(this.file);
+      
+      const autosaveSlot = 0;
+
+      // load save state if we have it
+      let filepath = this.file.name;
+      filepath = filepath.replace(/\.[^/.]+$/, ""); // remove file extension
+      filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
+      try {
+        console.log('going to call fs.stat, filepath: "' + filepath + '"');
+        await FileLoader.syncfs();
+        if (window.Module.FS.stat(filepath)) {
+          console.log('loading autosave');
+          window.Module._loadState(autosaveSlot);
+        }
+      } catch (e) {
+        console.log('fs.stat threw');
+        // FS.stat() will throw if the file doesn't exist.
+      }
+
+      // auto save state every 2 seconds
+      // TODO tweak this interval
+      const autosaveMs = 2000;
+      const scheduleAutosave = () => {
+        this.timeout = setTimeout(async () => {
+          window.Module._saveState(autosaveSlot);
+          await FileLoader.syncfs();
+          scheduleAutosave();
+        }, autosaveMs);
+      };
+      scheduleAutosave();
     });
 
     if (!this.file)
       throw new Error('this.file not defined! this: ', this);
+  }
+
+  disconnectedCallback() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   }
 
   buttonPress(name) {

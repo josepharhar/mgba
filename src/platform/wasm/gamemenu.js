@@ -1,13 +1,6 @@
 import MgbaSettingsDialog from './settings.js';
 import MgbaGame from './game.js';
-
-async function syncfs() {
-  const err = await new Promise(resolve => {
-    window.Module.FS.syncfs(resolve);
-  });
-  if (err)
-    console.log('syncfs error: ', err);
-}
+import * as FileLoader from './fileloader.js';
 
 export default class MgbaGameMenu extends HTMLElement {
   connectedCallback() {
@@ -29,7 +22,7 @@ export default class MgbaGameMenu extends HTMLElement {
     dialog.appendChild(saveButton);
     saveButton.onclick = async () => {
       saveButton.disabled = true;
-      await syncfs();
+      await FileLoader.syncfs();
       saveButton.disabled = false;
     };
 
@@ -39,7 +32,7 @@ export default class MgbaGameMenu extends HTMLElement {
     saveStateButton.onclick = async () => {
       saveStateButton.disabled = true;
       window.Module._saveState(1);
-      await syncfs();
+      await FileLoader.syncfs();
       saveStateButton.disabled = false;
     };
 
