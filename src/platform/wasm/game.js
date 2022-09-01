@@ -19,22 +19,43 @@ for (const [key, value] of buttonNameToId) {
 }
 
 export default class MgbaGame extends HTMLElement {
+  // Use setTimeout with 16ms delays for 60fps.
+  // Ideally this would be 16.6666, but this has to be an integer...
+  static mainLoopTiming = 16;
+  static fastLoopTiming = 8;
+
   connectedCallback() {
     this.addButtons();
 
-    this.canvas.classList.remove('disabled');
+    // TODO position this independently
+    this.canvas = document.createElement('canvas');
+    this.canvas.id = 'canvas';
+    this.canvas.setAttribute('width', '240');
+    this.canvas.setAttribute('height', '240');
+    this.canvas.style = 'cursor: default;';
+    //this.canvas.classList.add('disabled');
+    this.appendChild(this.canvas);
+
+    // TODO position this independently
+    this.placeholder = document.createElement('div');
+    this.appendChild(this.placeholder);
+    this.placeholder.textContent = 'loading...';
+
+    if (!window.Module)
+      window.Module = {};
+    window.Module.canvas = this.canvas;
+    mGBA(window.Module).then(() => {
+      window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
+      this.placeholder.remove();
+      this.canvas.classList.remove('disabled');
+
+      if (!this.file)
+        throw new Error('this.file not defined! this: ', this);
+      FileLoader.loadFile(this.file);
+    });
 
     if (!this.file)
       throw new Error('this.file not defined! this: ', this);
-    FileLoader.loadFile(this.file);
-  }
-
-  disconnectedCallback() {
-    this.canvas.classList.add('disabled');
-  }
-
-  get canvas() {
-    return document.getElementById('canvas');
   }
 
   buttonPress(name) {
