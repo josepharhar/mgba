@@ -1,6 +1,12 @@
-//import * as idb from './node_modules/idb-keyval/dist/index.js';
-//import * as idb from './node_modules/idb/build/index.js';
 import MgbaSettingsDialog from './settings.js';
+
+async function syncfs() {
+  const err = await new Promise(resolve => {
+    window.Module.FS.syncfs(resolve);
+  });
+  if (err)
+    console.log('syncfs error: ', err);
+}
 
 export default class MgbaGameMenu extends HTMLElement {
   connectedCallback() {
@@ -15,27 +21,25 @@ export default class MgbaGameMenu extends HTMLElement {
       this.remove();
     };
 
-    // Maybe .sav files are always written to when you actually save in the game, so none of the below is needed?
-    /*const saveButton = document.createElement('button');
+    // TODO call syncfs from C when the save is actually written internally
+    // so we can get rid of this button completely.
+    const saveButton = document.createElement('button');
     saveButton.textContent = 'Save';
     dialog.appendChild(saveButton);
     saveButton.onclick = async () => {
       saveButton.disabled = true;
-      console.log('saving...');
-
-      // TODO indexedb is already being used for save files and save states, we just have to poke the c++ to make it save.
-      // const save = Module.getSave();
-      // await idb.set(window.Module.saveName, save);
-
-      console.log('saving complete');
+      await syncfs();
       saveButton.disabled = false;
-    };*/
+    };
 
     const saveStateButton = document.createElement('button');
     saveStateButton.textContent = 'Save State';
     dialog.appendChild(saveStateButton);
-    saveStateButton.onclick = () => {
+    saveStateButton.onclick = async () => {
+      saveStateButton.disabled = true;
       window.Module._saveState();
+      await syncfs();
+      saveStateButton.disabled = false;
     };
 
     const loadStateButton = document.createElement('button');
