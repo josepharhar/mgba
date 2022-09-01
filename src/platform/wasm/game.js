@@ -74,6 +74,7 @@ export default class MgbaGame extends HTMLElement {
 
       // auto save state every 2 seconds
       // TODO tweak this interval
+      // TODO make this a setting in case people dont like autosaves
       const autosaveMs = 2000;
       const scheduleAutosave = () => {
         this.timeout = setTimeout(async () => {
