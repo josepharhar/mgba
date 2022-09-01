@@ -20,7 +20,7 @@ fi
 make -j4 install DESTDIR=install
 cd ..
 
-cp build-wasm/wasm/mgba.js src/platform/wasm
-cp build-wasm/wasm/mgba.wasm src/platform/wasm
+cp build-wasm/wasm/mgba.js src/platform/wasm/build
+cp build-wasm/wasm/mgba.wasm src/platform/wasm/build
 
 #(cd src/platform/wasm && python3 -m http.server)
