@@ -1,6 +1,11 @@
 import MgbaMenu from './menu.js';
 
 export default class MgbaInit extends HTMLElement {
+  // Use setTimeout with 16ms delays for 60fps.
+  // Ideally this would be 16.6666, but this has to be an integer...
+  static mainLoopTiming = 16;
+  static fastLoopTiming = 8;
+
   connectedCallback() {
     const header = document.createElement('h2');
     header.textContent = 'loading mGBA...';
@@ -13,9 +18,7 @@ export default class MgbaInit extends HTMLElement {
       const parent = this.parentNode;
       this.remove();
 
-      // Use setTimeout with 16ms delays for 60fps.
-      // Ideally this would be 16.6666, but this has to be an integer...
-      window.Module._setMainLoopTiming(0, 16);
+      window.Module._setMainLoopTiming(0, MgbaInit.mainLoopTiming);
       //window.Module.keyDown(12);
 
       parent.appendChild(document.createElement('mgba-menu'));

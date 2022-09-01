@@ -55,22 +55,19 @@ EMSCRIPTEN_KEEPALIVE void loadState(int slot) {
     printf("mCoreLoadState returned false! slot: %d\n", slot);
 }
 
-EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
-  printf("setMainLoopTiming mode: %d, value: %d\n", mode, value);
-  emscripten_set_main_loop_timing(mode, value);
-}
-EMSCRIPTEN_KEEPALIVE void toggleSpeed() {
+EMSCRIPTEN_KEEPALIVE int getMainLoopTiming() {
   int mode = -1;
   int value = -1;
   emscripten_get_main_loop_timing(&mode, &value);
-  printf("emscripten_get_main_loop_timing mode: %d, value: %d\n", mode, value);
-  if (value) {
-    value = 0; // unbounded
-  } else {
-    value = 60; // 60fps
-  }
-  emscripten_set_main_loop_timing(EM_TIMING_RAF, value);
-  return;
+  return value;
+}
+EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
+  emscripten_set_main_loop_timing(mode, value);
+}
+
+EMSCRIPTEN_KEEPALIVE void quit() {
+  emscripten_force_exit(0);
+  exit(0);
 }
 
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {

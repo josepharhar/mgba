@@ -1,4 +1,5 @@
 import MgbaSettingsDialog from './settings.js';
+import MgbaInit from './init.js';
 
 async function syncfs() {
   const err = await new Promise(resolve => {
@@ -53,7 +54,15 @@ export default class MgbaGameMenu extends HTMLElement {
     speedToggleButton.textContent = 'Toggle Speed';
     dialog.appendChild(speedToggleButton);
     speedToggleButton.onclick = () => {
-      window.Module._toggleSpeed();
+      const timing = window.Module._getMainLoopTiming();
+      console.log('timing: ' + timing);
+      if (timing == MgbaInit.mainLoopTiming) {
+        window.Module._setMainLoopTiming(0, MgbaInit.fastLoopTiming);
+      } else if (timing == MgbaInit.fastLoopTiming) {
+        window.Module._setMainLoopTiming(0, MgbaInit.mainLoopTiming);
+      } else {
+        console.log('unrecognized timing: ' + timing);
+      }
     };
 
     const settingsButton = document.createElement('button');
