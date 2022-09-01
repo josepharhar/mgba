@@ -27,19 +27,20 @@ export default class MgbaGame extends HTMLElement {
   connectedCallback() {
     this.addButtons();
 
-    // TODO position this independently
     this.canvas = document.createElement('canvas');
     this.canvas.id = 'canvas';
     this.canvas.setAttribute('width', '240');
     this.canvas.setAttribute('height', '240');
     this.canvas.style = 'cursor: default;';
-    //this.canvas.classList.add('disabled');
+    this.canvas.classList.add('disabled');
     this.appendChild(this.canvas);
 
-    // TODO position this independently
     this.placeholder = document.createElement('div');
     this.appendChild(this.placeholder);
-    this.placeholder.textContent = 'loading...';
+    this.placeholder.classList.add('placeholder');
+    const placeholderTitle = document.createElement('h1');
+    placeholderTitle.textContent = 'Loading...';
+    this.placeholder.appendChild(placeholderTitle);
 
     if (!window.Module)
       window.Module = {};

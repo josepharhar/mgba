@@ -16,6 +16,13 @@ mgba-game {
 }
 
 
+mgba-game .placeholder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 mgba-game .button-container {
   position: fixed;
   bottom: 0;
