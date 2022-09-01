@@ -37,7 +37,7 @@ export default class MgbaGameMenu extends HTMLElement {
     dialog.appendChild(saveStateButton);
     saveStateButton.onclick = async () => {
       saveStateButton.disabled = true;
-      window.Module._saveState();
+      window.Module._saveState(1);
       await syncfs();
       saveStateButton.disabled = false;
     };
@@ -46,7 +46,14 @@ export default class MgbaGameMenu extends HTMLElement {
     loadStateButton.textContent = 'Load State';
     dialog.appendChild(loadStateButton);
     loadStateButton.onclick = () => {
-      window.Module._loadState();
+      window.Module._loadState(1);
+    };
+
+    const speedToggleButton = document.createElement('button');
+    speedToggleButton.textContent = 'Toggle Speed';
+    dialog.appendChild(speedToggleButton);
+    speedToggleButton.onclick = () => {
+      window.Module._toggleSpeed();
     };
 
     const settingsButton = document.createElement('button');

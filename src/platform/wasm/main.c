@@ -28,35 +28,49 @@ static SDL_Texture* tex = NULL;
 static void _log(struct mLogger*, int category, enum mLogLevel level, const char* format, va_list args);
 static struct mLogger logCtx = { .log = _log };
 
-EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
-  printf("setMainLoopTiming mode: %d, value: %d\n", mode, value);
-  emscripten_set_main_loop_timing(mode, value);
-}
-
 EMSCRIPTEN_KEEPALIVE void buttonPress(int id) {
   core->addKeys(core, 1 << id);
 }
 EMSCRIPTEN_KEEPALIVE void buttonUnpress(int id) {
   core->clearKeys(core, 1 << id);
 }
+
 EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
   printf("setVolume: %d\n", volume);
   core->opts.volume = volume;
-  // TODO do i need to run something to actually apply the volume?
-	mCoreConfigMap(&core->config, &core->opts);
-  mCoreConfigSave(&core->config);
+  // TODO how do i make the volume actually change?
+	//mCoreConfigMap(&core->config, &core->opts);
+  //mCoreConfigSave(&core->config);
 }
 EMSCRIPTEN_KEEPALIVE int getVolume() {
   return core->opts.volume;
 }
-static int save_state_slot = 1;
-EMSCRIPTEN_KEEPALIVE void saveState() {
-  bool retval = mCoreSaveState(core, save_state_slot, /*flags=*/0);
-  printf("saveState retval: %d\n", retval);
+
+EMSCRIPTEN_KEEPALIVE void saveState(int slot) {
+  if (!mCoreSaveState(core, slot, /*flags=*/0))
+    printf("mCoreSaveState returned false! slot: %d\n", slot);
 }
-EMSCRIPTEN_KEEPALIVE void loadState() {
-  bool retval = mCoreLoadState(core, save_state_slot, /*flags=*/0);
-  printf("loadState retval: %d\n", retval);
+EMSCRIPTEN_KEEPALIVE void loadState(int slot) {
+  if (!mCoreLoadState(core, slot, /*flags=*/0))
+    printf("mCoreLoadState returned false! slot: %d\n", slot);
+}
+
+EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
+  printf("setMainLoopTiming mode: %d, value: %d\n", mode, value);
+  emscripten_set_main_loop_timing(mode, value);
+}
+EMSCRIPTEN_KEEPALIVE void toggleSpeed() {
+  int mode = -1;
+  int value = -1;
+  emscripten_get_main_loop_timing(&mode, &value);
+  printf("emscripten_get_main_loop_timing mode: %d, value: %d\n", mode, value);
+  if (value) {
+    value = 0; // unbounded
+  } else {
+    value = 60; // 60fps
+  }
+  emscripten_set_main_loop_timing(EM_TIMING_RAF, value);
+  return;
 }
 
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {

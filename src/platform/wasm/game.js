@@ -3,16 +3,16 @@ import MgbaGameLoader from './gamemenu.js';
 
 // TODO I wonder if i could have an integration test for these mappings...
 const buttonNameToId = new Map();
-buttonNameToId.set('A', 0);
-buttonNameToId.set('B', 1);
-buttonNameToId.set('Select', 2);
-buttonNameToId.set('Start', 3);
-buttonNameToId.set('Right', 4);
-buttonNameToId.set('Left', 5);
-buttonNameToId.set('Up', 6);
-buttonNameToId.set('Down', 7);
-buttonNameToId.set('R', 8);
-buttonNameToId.set('L', 9);
+buttonNameToId.set('a', 0);
+buttonNameToId.set('b', 1);
+buttonNameToId.set('select', 2);
+buttonNameToId.set('start', 3);
+buttonNameToId.set('right', 4);
+buttonNameToId.set('left', 5);
+buttonNameToId.set('up', 6);
+buttonNameToId.set('down', 7);
+buttonNameToId.set('r', 8);
+buttonNameToId.set('l', 9);
 const buttonIdToName = new Map();
 for (const [key, value] of buttonNameToId) {
   buttonIdToName.set(value, key);
@@ -38,11 +38,11 @@ export default class MgbaGame extends HTMLElement {
   }
 
   buttonPress(name) {
-    window.Module._buttonPress(buttonNameToId.get(name));
+    window.Module._buttonPress(buttonNameToId.get(name.toLowerCase()));
   }
 
   buttonUnpress(name) {
-    window.Module._buttonUnpress(buttonNameToId.get(name));
+    window.Module._buttonUnpress(buttonNameToId.get(name.toLowerCase()));
   }
 
   addShoulderRow(container) {
