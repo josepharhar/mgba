@@ -54,6 +54,11 @@ EMSCRIPTEN_KEEPALIVE void saveState() {
   bool retval = mCoreSaveState(core, save_state_slot, /*flags=*/0);
   printf("saveState retval: %d\n", retval);
 
+	EM_ASM(
+    FS.syncfs(true, function (err) {
+      console.log('FS.syncfs error: ', err);
+    });
+	);
   /*struct VFile* vf = mCoreGetState(core,
   mCoreSaveStateNamed(core, */
 }
@@ -143,7 +148,8 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 	}
 	core->init(core);
 	core->opts.savegamePath = strdup("/data/saves");
-	core->opts.savestatePath = strdup("/data/states");
+	//core->opts.savestatePath = strdup("/data/states");
+	core->opts.savestatePath = strdup("/data/saves");
 
   // 0x100 is max volume i think
   // wait... changing this doesnt even affect the volume!
@@ -220,7 +226,9 @@ int main() {
 		FS.mount(IDBFS, {}, '/data');
 		FS.mkdir('/data/saves');
 		FS.mkdir('/data/states');
-		FS.syncfs(true, function (err) {});
+		FS.syncfs(true, function (err) {
+      console.log('FS.syncfs error: ', err);
+    });
 	);
 	emscripten_set_main_loop(testLoop, 60, 1);
 	return 0;
