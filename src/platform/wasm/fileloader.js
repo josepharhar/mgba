@@ -1,6 +1,7 @@
 export function loadBuffer(name, buffer) {
-  window.Module.FS.writeFile(name, new Uint8Array(buffer));
-  window.Module.loadFile(name);
+  const nameWithPath = '/data/games/' + name;
+  window.Module.FS.writeFile(nameWithPath, new Uint8Array(buffer));
+  window.Module.loadFile(nameWithPath);
 }
 
 export function loadFile(romFile) {

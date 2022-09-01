@@ -228,6 +228,7 @@ int main() {
 		FS.mount(IDBFS, {}, '/data');
 		FS.mkdir('/data/saves');
 		FS.mkdir('/data/states');
+    FS.mkdir('/data/games');
 		FS.syncfs(true, function (err) {});
 	);
 	emscripten_set_main_loop(testLoop, 60, 1);
