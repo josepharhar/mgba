@@ -28,7 +28,8 @@ export function saveFile(a) {
   }, 0);
 }
 
-export async function syncfs() {
+export async function syncfs(reason) {
+  console.log('syncfs reason: ' + reason);
   const err = await new Promise(resolve => {
     window.Module.FS.syncfs(resolve);
   });

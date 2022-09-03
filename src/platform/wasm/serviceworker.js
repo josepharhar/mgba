@@ -33,5 +33,8 @@ self.addEventListener('install', event => {
   })());
 });
 
+// TODO find a way to fetch new stuff...?
+// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#deleting_old_caches
+
 // TODO consider using navigation preload
 // https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#service_worker_navigation_preload

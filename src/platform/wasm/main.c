@@ -225,14 +225,19 @@ int main() {
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   mSDLInitAudio(&audio, NULL);
 
-  EM_ASM(
+  /*EM_ASM(
     FS.mkdir('/data');
     FS.mount(IDBFS, {}, '/data');
     FS.mkdir('/data/saves');
     FS.mkdir('/data/states');
     FS.mkdir('/data/games');
-    FS.syncfs(true, function (err) {});
-  );
+    console.log('EM_ASM calling syncfs');
+    console.log('EM_ASM window: ', window);
+    console.log('EM_ASM window.Module: ', window.Module);
+    FS.syncfs(true, function (err) {
+      console.log('EM_ASM syncfs done. err: ', err);
+    });
+  );*/
   emscripten_set_main_loop(testLoop, 60, 1);
   return 0;
 }

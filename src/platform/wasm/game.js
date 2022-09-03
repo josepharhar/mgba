@@ -24,7 +24,7 @@ export default class MgbaGame extends HTMLElement {
   static mainLoopTiming = 16;
   static fastLoopTiming = 8;
 
-  connectedCallback() {
+  async connectedCallback() {
     this.addButtons();
 
     this.canvas = document.createElement('canvas');
@@ -42,52 +42,64 @@ export default class MgbaGame extends HTMLElement {
     placeholderTitle.textContent = 'Loading...';
     this.placeholder.appendChild(placeholderTitle);
 
+    if (!this.file) {
+      console.error('this.file not defined! this: ', this);
+      return;
+    }
+
     if (!window.Module)
       window.Module = {};
     window.Module.canvas = this.canvas;
-    mGBA(window.Module).then(async () => {
-      window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
-      this.placeholder.remove();
-      this.canvas.classList.remove('disabled');
+    await mGBA(window.Module);
+    window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
+    this.placeholder.remove();
+    this.canvas.classList.remove('disabled');
 
-      if (!this.file)
-        throw new Error('this.file not defined! this: ', this);
-      FileLoader.loadFile(this.file);
-      
-      const autosaveSlot = 0;
-
-      // load save state if we have it
-      let filepath = this.file.name;
-      filepath = filepath.replace(/\.[^/.]+$/, ""); // remove file extension
-      filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
-      try {
-        console.log('going to call fs.stat, filepath: "' + filepath + '"');
-        await FileLoader.syncfs();
-        if (window.Module.FS.stat(filepath)) {
-          console.log('loading autosave');
-          window.Module._loadState(autosaveSlot);
-        }
-      } catch (e) {
-        console.log('fs.stat threw');
-        // FS.stat() will throw if the file doesn't exist.
-      }
-
-      // auto save state every 2 seconds
-      // TODO tweak this interval
-      // TODO make this a setting in case people dont like autosaves
-      const autosaveMs = 2000;
-      const scheduleAutosave = () => {
-        this.timeout = setTimeout(async () => {
-          window.Module._saveState(autosaveSlot);
-          await FileLoader.syncfs();
-          scheduleAutosave();
-        }, autosaveMs);
-      };
-      scheduleAutosave();
-    });
+    // set up filesystem, this was moved from main.c
+    window.Module.FS.mkdir('/data');
+    window.Module.FS.mount(window.Module.FS.filesystems.IDBFS, {}, '/data');
+    window.Module.FS.mkdir('/data/saves');
+    window.Module.FS.mkdir('/data/states');
+    window.Module.FS.mkdir('/data/games');
+    await FileLoader.syncfs();
+    /*FS.syncfs(true, function (err) {
+      console.log('EM_ASM syncfs done. err: ', err);
+    });*/
 
     if (!this.file)
       throw new Error('this.file not defined! this: ', this);
+    FileLoader.loadFile(this.file);
+    
+    const autosaveSlot = 0;
+
+    // load save state if we have it
+    let filepath = this.file.name;
+    filepath = filepath.replace(/\.[^/.]+$/, ""); // remove file extension
+    filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
+    try {
+      console.log('going to call fs.stat, filepath: "' + filepath + '"');
+      await FileLoader.syncfs('autoloading autosave save state');
+      if (window.Module.FS.stat(filepath)) {
+        console.log('loading autosave');
+        window.Module._loadState(autosaveSlot);
+      }
+    } catch (e) {
+      // FS.stat() will throw if the file doesn't exist.
+      console.log('fs.stat threw. filepath: ' + filepath + ', error: ', e);
+    }
+
+    // auto save state every 2 seconds
+    // TODO tweak this interval
+    // TODO make this a setting in case people dont like autosaves
+    const autosaveMs = 2000;
+    const scheduleAutosave = () => {
+      this.timeout = setTimeout(async () => {
+        window.Module._saveState(autosaveSlot);
+        await FileLoader.syncfs('autosaving');
+        scheduleAutosave();
+      }, autosaveMs);
+    };
+    scheduleAutosave();
   }
 
   disconnectedCallback() {
