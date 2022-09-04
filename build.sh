@@ -20,6 +20,7 @@ fi
 make -j4 install DESTDIR=install
 cd ..
 
+mkdir -p src/platform/wasm/build
 cp build-wasm/wasm/mgba.js src/platform/wasm/build
 cp build-wasm/wasm/mgba.wasm src/platform/wasm/build
 
