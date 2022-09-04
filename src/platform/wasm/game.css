@@ -88,10 +88,53 @@ mgba-game .dpad {
 mgba-game .dpad > div {
   width: 100%;
   height: 100%;
-  border: 1px solid green;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: black;
+  background-color: white;
+  --dpad-border-radius: calc(0.25*var(--controls-scale));
+}
+mgba-game .dpad .up-left {
+  border-top-left-radius: var(--dpad-border-radius);
+}
+mgba-game .dpad .up-right {
+  border-top-right-radius: var(--dpad-border-radius);
+}
+mgba-game .dpad .down-right {
+  border-bottom-right-radius: var(--dpad-border-radius);
+}
+mgba-game .dpad .down-left {
+  border-bottom-left-radius: var(--dpad-border-radius);
 }
 mgba-game .dpad > div::before {
   content: '⬆';
+}
+mgba-game .dpad .up-left::before {
+  transform: rotate(-45deg);
+}
+mgba-game .dpad .up-right::before {
+  transform: rotate(45deg);
+}
+mgba-game .dpad .right::before {
+  transform: rotate(90deg);
+}
+mgba-game .dpad .down-right::before {
+  transform: rotate(135deg);
+}
+mgba-game .dpad .down::before {
+  transform: rotate(180deg);
+}
+mgba-game .dpad .down-left::before {
+  transform: rotate(225deg);
+}
+mgba-game .dpad .left::before {
+  transform: rotate(-90deg);
+}
+mgba-game .dpad > .center::before {
+  content: '';
 }
 mgba-game .ab-container {
   display: grid;

@@ -152,6 +152,8 @@ export default class MgbaGame extends HTMLElement {
         div.classList.add('up-right');
       } else if (i == 3) {
         div.classList.add('left');
+      } else if (i == 4) {
+        div.classList.add('center');
       } else if (i == 5) {
         div.classList.add('right');
       } else if (i == 6) {
