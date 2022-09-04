@@ -28,10 +28,17 @@ export function saveFile(a) {
   }, 0);
 }
 
-export async function syncfs(reason) {
-  console.log('syncfs reason: ' + reason);
+export async function readfs() {
   const err = await new Promise(resolve => {
-    window.Module.FS.syncfs(resolve);
+    window.Module.FS.syncfs(/*populate=*/true, resolve);
+  });
+  if (err)
+    console.log('syncfs error: ', err);
+}
+
+export async function writefs() {
+  const err = await new Promise(resolve => {
+    window.Module.FS.syncfs(/*populate=*/false, resolve);
   });
   if (err)
     console.log('syncfs error: ', err);

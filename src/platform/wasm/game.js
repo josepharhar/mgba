@@ -58,13 +58,18 @@ export default class MgbaGame extends HTMLElement {
     // set up filesystem, this was moved from main.c
     window.Module.FS.mkdir('/data');
     window.Module.FS.mount(window.Module.FS.filesystems.IDBFS, {}, '/data');
-    window.Module.FS.mkdir('/data/saves');
-    window.Module.FS.mkdir('/data/states');
-    window.Module.FS.mkdir('/data/games');
-    await FileLoader.syncfs();
-    /*FS.syncfs(true, function (err) {
-      console.log('EM_ASM syncfs done. err: ', err);
-    });*/
+    await FileLoader.readfs();
+    // When we read from indexedb, these directories may or may not exist.
+    // If we mkdir and they already exist they throw, so just catch all of them.
+    try {
+      window.Module.FS.mkdir('/data/saves');
+    } catch (e) {}
+    try {
+      window.Module.FS.mkdir('/data/states');
+    } catch (e) {}
+    try {
+      window.Module.FS.mkdir('/data/games');
+    } catch (e) {}
 
     if (!this.file)
       throw new Error('this.file not defined! this: ', this);
@@ -77,15 +82,12 @@ export default class MgbaGame extends HTMLElement {
     filepath = filepath.replace(/\.[^/.]+$/, ""); // remove file extension
     filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
     try {
-      console.log('going to call fs.stat, filepath: "' + filepath + '"');
-      await FileLoader.syncfs('autoloading autosave save state');
+      await FileLoader.writefs();
       if (window.Module.FS.stat(filepath)) {
-        console.log('loading autosave');
         window.Module._loadState(autosaveSlot);
       }
     } catch (e) {
       // FS.stat() will throw if the file doesn't exist.
-      console.log('fs.stat threw. filepath: ' + filepath + ', error: ', e);
     }
 
     // auto save state every 2 seconds
@@ -95,7 +97,7 @@ export default class MgbaGame extends HTMLElement {
     const scheduleAutosave = () => {
       this.timeout = setTimeout(async () => {
         window.Module._saveState(autosaveSlot);
-        await FileLoader.syncfs('autosaving');
+        await FileLoader.writefs();
         scheduleAutosave();
       }, autosaveMs);
     };
