@@ -47,6 +47,12 @@ mgba-game .button-container {
   user-select: none;*/
 }
 
+mgba-game .button {
+  background-color: white;
+  color: black;
+  border-radius: calc(0.2*var(--controls-scale));
+}
+
 mgba-game .shoulder-row {
   display: flex;
   justify-content: space-between;
@@ -58,8 +64,8 @@ mgba-game .R {
   justify-content: center;
   font-size: 30px;
 
-  width: 50px;
-  height: 50px;
+  width: calc(2*var(--controls-scale));
+  height: calc(1*var(--controls-scale));
 }
 mgba-game .L::before {
   content: 'L';
@@ -71,28 +77,31 @@ mgba-game .R::before {
 mgba-game .controls-row {
   display: flex;
   justify-content: space-between;
-  height: calc(3*var(--controls-scale));
-  width: calc(3*var(--controls-scale));
 }
 mgba-game .dpad {
+  /* this needs to be kept in sync with ab-container's width and height! */
+  height: calc(3*var(--controls-scale));
+  width: calc(3*var(--controls-scale));
   display: grid;
   grid-template-columns: auto auto auto;
 }
 mgba-game .dpad > div {
-  width: 50px;
-  height: 50px;
+  width: 100%;
+  height: 100%;
   border: 1px solid green;
+}
+mgba-game .dpad > div::before {
+  content: '⬆';
 }
 mgba-game .ab-container {
   display: grid;
   grid-template-columns: auto auto;
+  height: calc(3*var(--controls-scale));
+  width: calc(3*var(--controls-scale));
 }
 mgba-game .ab-container > div {
-  width: calc(3*var(--controls-scale));
-  height: calc(3*var(--controls-scale));
-  width: 70px;
-  height: 70px;
-  border: 1px solid green;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   justify-content: center;
@@ -116,10 +125,6 @@ mgba-game .menu::before {
   content: 'MENU';
 }
 mgba-game .menu {
-  height: 70px;
-  width: 70px;
-
-  border: 1px solid green;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,12 +134,15 @@ mgba-game .select-start-container {
 }
 mgba-game .select,
 mgba-game .start {
-  border: 1px solid green;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70px;
-  width: 70px;
+}
+mgba-game .select,
+mgba-game .start,
+mgba-game .menu {
+  width: calc(2*var(--controls-scale));
+  height: calc(var(--controls-scale));
 }
 mgba-game .select::before {
   content: 'SELECT';
@@ -157,10 +165,6 @@ mgba-game .fake-button.Select::before {
 mgba-game .fake-button.Start::before {
   font-size: 10px;
   content: 'START';
-}
-mgba-game .fake-button.R,
-mgba-game .fake-button.L {
-  border: 1px solid green;
 }
 mgba-game .fake-button.R::before {
   content: 'R';

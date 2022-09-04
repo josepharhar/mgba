@@ -125,10 +125,12 @@ export default class MgbaGame extends HTMLElement {
 
     const L = document.createElement('div');
     L.classList.add('L');
+    L.classList.add('button');
     shoulderRow.appendChild(L);
 
     const R = document.createElement('div');
     R.classList.add('R');
+    R.classList.add('button');
     shoulderRow.appendChild(R);
   }
 
@@ -141,7 +143,25 @@ export default class MgbaGame extends HTMLElement {
     dpad.classList.add('dpad');
     controlsRow.appendChild(dpad);
     for (let i = 0; i < 9; i++) {
-      dpad.appendChild(document.createElement('div'));
+      const div = document.createElement('div');
+      if (i == 0) {
+        div.classList.add('up-left');
+      } else if (i == 1) {
+        div.classList.add('up');
+      } else if (i == 2) {
+        div.classList.add('up-right');
+      } else if (i == 3) {
+        div.classList.add('left');
+      } else if (i == 5) {
+        div.classList.add('right');
+      } else if (i == 6) {
+        div.classList.add('down-left');
+      } else if (i == 7) {
+        div.classList.add('down');
+      } else if (i == 8) {
+        div.classList.add('down-right');
+      }
+      dpad.appendChild(div);
     }
 
     const abContainer = document.createElement('div');
@@ -150,9 +170,11 @@ export default class MgbaGame extends HTMLElement {
     abContainer.appendChild(document.createElement('div'));
     const a = document.createElement('div');
     a.classList.add('A');
+    a.classList.add('button');
     abContainer.appendChild(a);
     const b = document.createElement('div');
     b.classList.add('B');
+    b.classList.add('button');
     abContainer.appendChild(b);
     abContainer.appendChild(document.createElement('div'));
   }
@@ -164,6 +186,7 @@ export default class MgbaGame extends HTMLElement {
 
     const menu = document.createElement('div');
     menu.classList.add('menu');
+    menu.classList.add('button');
     menuRow.appendChild(menu);
     menu.onclick = () => {
       this.appendChild(document.createElement('mgba-game-menu'));
@@ -175,10 +198,12 @@ export default class MgbaGame extends HTMLElement {
 
     const select = document.createElement('div');
     select.classList.add('select');
+    select.classList.add('button');
     selectStartContainer.appendChild(select);
 
     const start = document.createElement('div');
     start.classList.add('start');
+    start.classList.add('button');
     selectStartContainer.appendChild(start);
 
     menuRow.appendChild(document.createElement('div'));
