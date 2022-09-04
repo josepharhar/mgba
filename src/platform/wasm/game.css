@@ -1,5 +1,6 @@
 mgba-game {
   display: block;
+  --controls-scale: min(75px, 15vh);
 }
 
 #canvas {
@@ -70,6 +71,8 @@ mgba-game .R::before {
 mgba-game .controls-row {
   display: flex;
   justify-content: space-between;
+  height: calc(3*var(--controls-scale));
+  width: calc(3*var(--controls-scale));
 }
 mgba-game .dpad {
   display: grid;
@@ -85,8 +88,8 @@ mgba-game .ab-container {
   grid-template-columns: auto auto;
 }
 mgba-game .ab-container > div {
-  width: calc(3*min(75px,15vh));
-  height: calc(3*min(75px,15vh));
+  width: calc(3*var(--controls-scale));
+  height: calc(3*var(--controls-scale));
   width: 70px;
   height: 70px;
   border: 1px solid green;
