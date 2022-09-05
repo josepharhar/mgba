@@ -14,7 +14,9 @@ self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(cacheName);
     await cache.addAll([
-      // TODO find a good way to maintain this list
+      // TODO find a good way to maintain this list.
+      // maybe i could have cmake generate this as part of the build?
+      // and make a new cache/version based on the commit hash?
       '/index.html',
       '/manifest.json',
       '/build/mgba.js',
