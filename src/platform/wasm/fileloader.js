@@ -1,7 +1,8 @@
 export function loadBuffer(name, buffer) {
   const nameWithPath = '/data/games/' + name;
   window.Module.FS.writeFile(nameWithPath, new Uint8Array(buffer));
-  if (window.Module._loadGame(nameWithPath)) {
+	const loadGame = window.Module.cwrap('loadGame', 'number', ['string']);
+  if (loadGame(nameWithPath)) {
     const arr = nameWithPath.split('.');
     arr.pop();
     window.Module.gameName = name;
