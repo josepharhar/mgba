@@ -11,6 +11,7 @@ self.addEventListener('fetch', async event => {
 });
 
 self.addEventListener('install', event => {
+  console.log(`sw ${cacheName} install`);
   event.waitUntil((async () => {
     const cache = await caches.open(cacheName);
     await cache.addAll([
@@ -26,7 +27,6 @@ self.addEventListener('install', event => {
       '/game.css',
       '/gamemenu.js',
       '/menu.js',
-      '/pre.js',
       '/settings.js',
       '/style.css',
       '/fileloader.js',
@@ -35,8 +35,26 @@ self.addEventListener('install', event => {
   })());
 });
 
-// TODO find a way to fetch new stuff...?
-// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#deleting_old_caches
-
-// TODO consider using navigation preload
-// https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#service_worker_navigation_preload
+self.addEventListener('activate', function (event) {
+  console.log(`sw ${cacheName} activate`);
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames
+          .filter(function (name) {
+            // Return true if you want to remove this cache,
+            // but remember that caches are shared across
+            // the whole origin
+            return name != cacheName;
+            if (name != cacheName) {
+              return true;
+            }
+          })
+          .map(function (name) {
+            console.log(`sw ${cacheName} activate deleting cache: ${name}`);
+            return caches.delete(name);
+          }),
+      );
+    }),
+  );
+});
