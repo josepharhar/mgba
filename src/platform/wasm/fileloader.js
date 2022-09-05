@@ -12,11 +12,6 @@ export function loadFile(romFile) {
   reader.readAsArrayBuffer(romFile);
 }
 
-// TODO save to localStorage on unload, beforeunload, and/or pagehide events
-// https://wd.imgix.net/image/kheDArv5csY6rvQUJDbWRscckLr1/Hs3H9gK98YT0pvvU3k25.png
-// Maybe pagehide would be best...? https://stackoverflow.com/a/31039609
-// Or maybe we could just save to localStorage every couple seconds if it doesnt hurt performance.
-// Would also be good to get a signal from mGBA when the game is saved from within the game.
 export function saveFile(a) {
   var save = window.Module.getSave();
   a.download = window.Module.saveName;

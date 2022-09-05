@@ -15,9 +15,4 @@ Module.getSave = function() {
   // TODO also do save states here somehow...
 	return FS.readFile('/data/saves/' + Module.saveName);
 }
-console.log('pre.js window: ', window);
-console.log('pre.js this: ', this);
-console.log('pre.js Module: ', Module);
-console.log('pre.js cwrap: ', cwrap);
-console.log('pre.js Module.cwrap: ' , cwrap);
 window.cwrap = cwrap;
