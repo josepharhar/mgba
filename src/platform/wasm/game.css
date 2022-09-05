@@ -87,6 +87,8 @@ mgba-game .controls-row {
   display: flex;
   justify-content: space-between;
 }
+
+/* TODO implement pressed state for dpad */
 mgba-game .dpad {
   /* this needs to be kept in sync with ab-container's width and height! */
   height: calc(3*var(--controls-scale));
@@ -201,71 +203,4 @@ mgba-game .select::before {
 }
 mgba-game .start::before {
   content: 'START';
-}
-
-
-/* TODO implement pressed state for dpad */
-mgba-game .d-pad {
-  position: absolute;
-  padding: 26px;
-  top: 0;
-  left: 0%;
-  --size: 60px;
-  --thickness: 15px;
-  --rotate: 5deg;
-  --rotateX: 0deg;
-  --rotateY: 0deg;
-  width: var(--size);
-  height: var(--size);
-  filter: drop-shadow(0 0 2px #666);
-}
-
-mgba-game .d-pad::before {
-  content: '';
-  position: absolute;
-  top: calc(26px + var(--size) / 2 - var(--thickness) / 2);
-  left: 26px;
-  width: var(--size);
-  height: var(--thickness);
-  border-radius: 4px;
-  background: #999;
-}
-mgba-game .d-pad::after {
-  content: '';
-  position: absolute;
-  top: 26px;
-  left: calc(26px + var(--size) / 2 - var(--thickness) / 2);
-  width: var(--thickness);
-  height: var(--size);
-  background: #999;
-  border-radius: 4px;
-}
-
-mgba-game .d-pad.Left:not(.Right)::before {
-  background: linear-gradient(to left, #999 60%, #666);
-}
-mgba-game .d-pad.Right:not(.Left)::before {
-  background: linear-gradient(to right, #999 60%, #666);
-}
-mgba-game .d-pad.Up:not(.Down)::after {
-  background: linear-gradient(to top, #999 60%, #666);
-}
-mgba-game .d-pad.Down:not(.Up)::after {
-  background: linear-gradient(to bottom, #999 60%, #666);
-}
-
-mgba-game .d-pad.Left:not(.Right) {
-  --rotateY: calc(0deg - var(--rotate));
-}
-mgba-game .d-pad.Right:not(.Left) {
-  --rotateY: var(--rotate);
-}
-mgba-game .d-pad.Up:not(.Down) {
-  --rotateX: var(--rotate);
-}
-mgba-game .d-pad.Down:not(.Up) {
-  --rotateX: calc(0deg - var(--rotate));
-}
-mgba-game .d-pad {
-  transform: perspective(80px) rotateX(var(--rotateX)) rotateY(var(--rotateY));
 }
