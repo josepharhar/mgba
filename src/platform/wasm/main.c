@@ -143,6 +143,7 @@ void testLoop() {
 }
 
 EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
+  printf("loadGame name: %s\n", name);
   if (core) {
     core->deinit(core);
     core = NULL;

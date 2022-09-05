@@ -1,7 +1,15 @@
 export function loadBuffer(name, buffer) {
   const nameWithPath = '/data/games/' + name;
   window.Module.FS.writeFile(nameWithPath, new Uint8Array(buffer));
-  window.Module.loadFile(nameWithPath);
+  if (window.Module._loadGame(nameWithPath)) {
+    const arr = nameWithPath.split('.');
+    arr.pop();
+    window.Module.gameName = name;
+    window.Module.saveName = arr.join('.') + '.sav';
+    return true;
+  } else {
+    console.log('Module._loadGame returned false!');
+  }
 }
 
 export function loadFile(romFile) {
@@ -13,9 +21,9 @@ export function loadFile(romFile) {
 }
 
 export function saveFile(a) {
-  var save = window.Module.getSave();
+  const save = window.Module.FS.readFile('/data/saves/' + window.Module.saveName);
   a.download = window.Module.saveName;
-  var blob = new Blob([save], { type: 'application/octet-stream' });
+  const blob = new Blob([save], { type: 'application/octet-stream' });
   a.href = URL.createObjectURL(blob);
   setTimeout(function() {
     URL.revokeObjectURL(a.href);

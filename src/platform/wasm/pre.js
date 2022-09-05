@@ -11,8 +11,4 @@ Module.loadFile = (function() {
 		return false;
 	}
 })();
-Module.getSave = function() {
-  // TODO also do save states here somehow...
-	return FS.readFile('/data/saves/' + Module.saveName);
-}
 window.cwrap = cwrap;
