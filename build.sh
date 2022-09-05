@@ -24,4 +24,8 @@ mkdir -p src/platform/wasm/build
 cp build-wasm/wasm/mgba.js src/platform/wasm/build
 cp build-wasm/wasm/mgba.wasm src/platform/wasm/build
 
+cp src/platform/wasm/serviceworker.js src/platform/wasm/build/serviceworker.js
+COMMIT=$(git rev-parse --short HEAD)
+sed -i '' -e s/GITCOMMIT/${COMMIT}/g src/platform/wasm/build/serviceworker.js
+
 #(cd src/platform/wasm && python3 -m http.server)

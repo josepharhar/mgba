@@ -1,4 +1,4 @@
-const cacheName = 'v1';
+const cacheName = 'mgba-GITCOMMIT';
 
 self.addEventListener('fetch', async event => {
   const cachedResponse = await caches.match(event.request);
@@ -29,7 +29,6 @@ self.addEventListener('install', event => {
       '/pre.js',
       '/settings.js',
       '/style.css',
-      '/touchcontrols.js',
       '/fileloader.js',
       '/icons/mgba.ico',
     ]);
