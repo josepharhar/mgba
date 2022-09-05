@@ -1,12 +1,21 @@
 mgba-game {
   display: block;
-  --controls-scale: min(75px, 15vh);
+  --controls-scale: min(13vw, 80px);
+}
+
+@media (orientation: landscape) {
+  mgba-game {
+    --controls-scale: min(75px, 15vh);
+  }
+  #canvas {
+    height: 100vh;
+  }
 }
 
 #canvas {
   image-rendering: crisp-edges; /* TODO make this configurable */
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   object-fit: contain;
   display: block;
   position: absolute;
