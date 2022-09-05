@@ -21,6 +21,7 @@ self.addEventListener('install', event => {
       '/manifest.json',
       '/build/mgba.js',
       '/build/mgba.wasm',
+      '/controls.js',
       '/game.js',
       '/game.css',
       '/gamemenu.js',

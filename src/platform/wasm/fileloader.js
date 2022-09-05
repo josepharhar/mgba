@@ -7,7 +7,6 @@ export function loadBuffer(name, buffer) {
     arr.pop();
     window.Module.gameName = name;
     window.Module.saveName = arr.join('.') + '.sav';
-    return true;
   } else {
     console.log('Module._loadGame returned false!');
   }
