@@ -84,6 +84,8 @@ mgba-game .R::before {
 }
 
 mgba-game .controls-row {
+  padding-top: 3px;
+  padding-bottom: 3px;
   display: flex;
   justify-content: space-between;
 }

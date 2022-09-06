@@ -1,3 +1,5 @@
+// TODO why wont the new service worker ever install/activate??
+
 const cacheName = 'mgba-GITCOMMIT';
 
 self.addEventListener('fetch', async event => {
