@@ -65,11 +65,6 @@ EMSCRIPTEN_KEEPALIVE void setMainLoopTiming(int mode, int value) {
   emscripten_set_main_loop_timing(mode, value);
 }
 
-EMSCRIPTEN_KEEPALIVE void quit() {
-  emscripten_force_exit(0);
-  exit(0);
-}
-
 static void handleKeypressCore(const struct SDL_KeyboardEvent* event) {
   /*if (event->keysym.sym == SDLK_TAB && event->type == SDL_KEYDOWN) {
     int mode = -1;
@@ -140,6 +135,13 @@ void testLoop() {
   }
 }
 
+EMSCRIPTEN_KEEPALIVE void quitGame() {
+  if (core) {
+    core->deinit(core);
+    core = NULL;
+  }
+}
+
 EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   if (core) {
     core->deinit(core);
@@ -158,11 +160,17 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   core->opts.volume = 0;
 
   // TODO also do savestates here somehow...
-  mCoreLoadFile(core, name);
+  if (!mCoreLoadFile(core, name)) {
+    printf("mCoreLoadFile returned false!\n");
+    return false;
+  }
   mCoreConfigInit(&core->config, "wasm");
   mInputMapInit(&core->inputMap, &GBAInputInfo);
   mDirectorySetMapOptions(&core->dirs, &core->opts);
-  mCoreAutoloadSave(core);
+  if (!mCoreAutoloadSave(core)) {
+    printf("mCoreAutoloadSave returned false!\n");
+    return false;
+  }
   // TODO if this is for detecting keypresses in the webpage, I should probably try to remove it.
   mSDLInitBindingsGBA(&core->inputMap);
 

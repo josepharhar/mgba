@@ -3,6 +3,9 @@ import MgbaSettingsDialog from './settings.js';
 
 export default class MgbaMenu extends HTMLElement {
   connectedCallback() {
+    // TODO
+    //window.Module.FS.readdir('/
+
     const filepicker = document.createElement('button');
     filepicker.textContent = 'pick a GBA ROM file...';
     this.appendChild(filepicker);

@@ -71,7 +71,7 @@ export default class MgbaGameMenu extends HTMLElement {
     dialog.appendChild(quitButton);
     quitButton.onclick = () => {
       try {
-        window.Module._quit();
+        window.Module._quitGame();
       } catch (e) {}
       this.remove();
       document.querySelector('mgba-game').remove();
