@@ -143,6 +143,12 @@ EMSCRIPTEN_KEEPALIVE void quitGame() {
 }
 
 EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
+  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
+  window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 16, 16, SDL_WINDOW_OPENGL);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  mSDLInitAudio(&audio, NULL);
+  emscripten_set_main_loop(testLoop, 60, 1);
+
   if (core) {
     core->deinit(core);
     core = NULL;
@@ -226,24 +232,5 @@ CONSTRUCTOR(premain) {
 int main() {
   mLogSetDefaultLogger(&logCtx);
 
-  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
-  window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 16, 16, SDL_WINDOW_OPENGL);
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  mSDLInitAudio(&audio, NULL);
-
-  /*EM_ASM(
-    FS.mkdir('/data');
-    FS.mount(IDBFS, {}, '/data');
-    FS.mkdir('/data/saves');
-    FS.mkdir('/data/states');
-    FS.mkdir('/data/games');
-    console.log('EM_ASM calling syncfs');
-    console.log('EM_ASM window: ', window);
-    console.log('EM_ASM window.Module: ', window.Module);
-    FS.syncfs(true, function (err) {
-      console.log('EM_ASM syncfs done. err: ', err);
-    });
-  );*/
-  emscripten_set_main_loop(testLoop, 60, 1);
   return 0;
 }
