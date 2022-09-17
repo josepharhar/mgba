@@ -13,6 +13,7 @@ export default class MgbaInit extends HTMLElement {
 
     if (!window.Module)
       window.Module = {};
+    window.Module.canvas = canvas;
     try {
       await mGBA(window.Module);
     } catch (error) {
