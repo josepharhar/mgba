@@ -24,6 +24,7 @@ self.addEventListener('install', event => {
       '/manifest.json',
       '/build/mgba.js',
       '/build/mgba.wasm',
+      '/build/version.js',
       '/controls.js',
       '/game.js',
       '/game.css',
@@ -32,6 +33,7 @@ self.addEventListener('install', event => {
       '/settings.js',
       '/style.css',
       '/fileloader.js',
+      '/storage.js',
       '/icons/mgba.ico',
     ]);
   })());
