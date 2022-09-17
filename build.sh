@@ -25,7 +25,13 @@ cp build-wasm/wasm/mgba.js src/platform/wasm/build
 cp build-wasm/wasm/mgba.wasm src/platform/wasm/build
 
 cp src/platform/wasm/serviceworker.js src/platform/wasm/build/serviceworker.js
+cp src/platform/wasm/version.js src/platform/wasm/build/version.js
+
 COMMIT=$(git rev-parse --short HEAD)
 sed -i '' -e s/GITCOMMIT/${COMMIT}/g src/platform/wasm/build/serviceworker.js
+sed -i '' -e s/GITCOMMIT/${COMMIT}/g src/platform/wasm/build/version.js
+
+VERSION=`cat src/platform/wasm/build/VERSION`
+sed -i '' -e s/MGBAVERSION/${VERSION}/g src/platform/wasm/build/version.js
 
 #(cd src/platform/wasm && python3 -m http.server)
