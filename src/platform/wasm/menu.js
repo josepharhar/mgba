@@ -1,5 +1,6 @@
 import MgbaGame from './game.js';
 import MgbaSettingsDialog from './settings.js';
+import * as FileLoader from './fileloader.js';
 
 export default class MgbaMenu extends HTMLElement {
   async connectedCallback() {
