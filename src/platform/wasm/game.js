@@ -11,12 +11,13 @@ export default class MgbaGame extends HTMLElement {
   async connectedCallback() {
     this.appendChild(document.createElement('mgba-controls'));
 
-    this.canvas = document.createElement('canvas');
-    this.canvas.id = 'canvas';
+    //this.canvas = document.createElement('canvas');
+    //this.canvas.id = 'canvas';
+    this.canvas = document.getElementById('canvas');
     this.canvas.setAttribute('width', '240');
     this.canvas.setAttribute('height', '240');
     this.canvas.style = 'cursor: default;';
-    this.canvas.classList.add('disabled');
+    //this.canvas.classList.add('disabled');
     this.appendChild(this.canvas);
 
     this.placeholder = document.createElement('div');
