@@ -1,9 +1,7 @@
-export function loadBuffer(name, buffer) {
-  const nameWithPath = '/data/games/' + name;
-  window.Module.FS.writeFile(nameWithPath, new Uint8Array(buffer));
-	const loadGame = window.Module.cwrap('loadGame', 'number', ['string']);
-  if (loadGame(nameWithPath)) {
-    const arr = nameWithPath.split('.');
+export function loadGame(filepath) {
+	const cLoadGame = window.Module.cwrap('loadGame', 'number', ['string']);
+  if (cLoadGame(filepath)) {
+    const arr = filepath.split('.');
     arr.pop();
     window.Module.gameName = name;
     window.Module.saveName = arr.join('.') + '.sav';
@@ -12,15 +10,30 @@ export function loadBuffer(name, buffer) {
   }
 }
 
+export async function saveFile(filepath, file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      window.Module.FS.writeFile(
+        filepath, new Uint8Array(e.target.result));
+      resolve();
+    }
+    reader.readAsArrayBuffer(romFile);
+  });
+}
+
 export function loadFile(romFile) {
   var reader = new FileReader();
   reader.onload = function(e) {
-    loadBuffer(romFile.name, e.target.result);
+    const nameWithPath = '/data/games/' + romFile.name;
+    window.Module.FS.writeFile(
+      nameWithPath, new Uint8Array(e.target.result));
   }
   reader.readAsArrayBuffer(romFile);
 }
 
-export function saveFile(a) {
+// TODO find a way to export files and delet this
+/*export function saveFile(a) {
   const save = window.Module.FS.readFile('/data/saves/' + window.Module.saveName);
   a.download = window.Module.saveName;
   const blob = new Blob([save], { type: 'application/octet-stream' });
@@ -29,7 +42,7 @@ export function saveFile(a) {
     URL.revokeObjectURL(a.href);
     a.href = '#';
   }, 0);
-}
+}*/
 
 export async function readfs() {
   const err = await new Promise(resolve => {

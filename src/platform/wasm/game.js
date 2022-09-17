@@ -27,40 +27,21 @@ export default class MgbaGame extends HTMLElement {
     placeholderTitle.textContent = 'Loading...';
     this.placeholder.appendChild(placeholderTitle);
 
-    if (!this.file) {
-      console.error('this.file not defined! this: ', this);
-      return;
-    }
-
     window.Module.canvas = this.canvas;
     // TODO window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
     this.placeholder.remove();
     this.canvas.classList.remove('disabled');
 
-    // set up filesystem, this was moved from main.c
-    window.Module.FS.mkdir('/data');
-    window.Module.FS.mount(window.Module.FS.filesystems.IDBFS, {}, '/data');
-    await FileLoader.readfs();
-    // When we read from indexedb, these directories may or may not exist.
-    // If we mkdir and they already exist they throw, so just catch all of them.
-    try {
-      window.Module.FS.mkdir('/data/saves');
-    } catch (e) {}
-    try {
-      window.Module.FS.mkdir('/data/states');
-    } catch (e) {}
-    try {
-      window.Module.FS.mkdir('/data/games');
-    } catch (e) {}
+    if (!this.name)
+      throw new Error('this.namenot defined! this: ', this);
 
-    if (!this.file)
-      throw new Error('this.file not defined! this: ', this);
-    FileLoader.loadFile(this.file);
+    const romFilepath = `/data/games/${this.name}`;
+    FileLoader.loadGame(romFilepath);
     
     const autosaveSlot = 0;
 
     // load save state if we have it
-    let filepath = this.file.name;
+    let filepath = this.name;
     filepath = filepath.replace(/\.[^/.]+$/, ""); // remove file extension
     filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
     try {

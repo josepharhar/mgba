@@ -2,10 +2,7 @@ import MgbaGame from './game.js';
 import MgbaSettingsDialog from './settings.js';
 
 export default class MgbaMenu extends HTMLElement {
-  connectedCallback() {
-    // TODO
-    //window.Module.FS.readdir('/
-
+  async connectedCallback() {
     const filepicker = document.createElement('button');
     filepicker.textContent = 'pick a GBA ROM file...';
     this.appendChild(filepicker);
@@ -14,13 +11,37 @@ export default class MgbaMenu extends HTMLElement {
       fileInput.type = 'file';
       fileInput.click();
       fileInput.onchange = () => {
-        // TODO check to make sure the file is valid first?
+        const file = fileInput.files[0];
+        const filepath = `/data/games/${file.name}`;
+        FileLoader.saveFile(filepath, file);
+
         this.remove();
         const game = document.createElement('mgba-game');
-        game.file = fileInput.files[0];
+        game.name = file.name;
         document.body.appendChild(game);
       };
     };
+
+    const games = window.Module.FS.readdir('/data/games');
+    games.splice(games.indexOf('.'), 1);
+    games.splice(games.indexOf('..'), 1);
+
+    if (games.length) {
+      const title = document.createElement('h3');
+      title.textContent = 'Saved ROMs:';
+      this.appendChild(title);
+    }
+    for (const gameName of games) {
+      const button = document.createElement('button');
+      button.textContent = gameName;
+      this.appendChild(button);
+      button.onclick = () => {
+        this.remove();
+        const mgbaGame = document.createElement('mgba-game');
+        mgbaGame.name = gameName;
+        document.body.appendChild(mgbaGame);
+      };
+    }
 
     const settingsButton = document.createElement('button');
     settingsButton.classList.add('settings');
