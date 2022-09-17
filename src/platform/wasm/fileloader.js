@@ -20,17 +20,19 @@ export async function saveFile(filepath, file) {
   });
 }
 
-// TODO find a way to export files and delet this
-/*export function saveFile(a) {
-  const save = window.Module.FS.readFile('/data/saves/' + window.Module.saveName);
-  a.download = window.Module.saveName;
+export function downloadFile(filepath, filename) {
+  const save = window.Module.FS.readFile(filepath);
+  const a = document.createElement('a');
+  document.body.appendChild(a);
+  a.download = filename;
   const blob = new Blob([save], { type: 'application/octet-stream' });
   a.href = URL.createObjectURL(blob);
-  setTimeout(function() {
-    URL.revokeObjectURL(a.href);
-    a.href = '#';
-  }, 0);
-}*/
+
+  a.click();
+
+  URL.revokeObjectURL(blob);
+  a.remove();
+}
 
 export async function readfs() {
   const err = await new Promise(resolve => {

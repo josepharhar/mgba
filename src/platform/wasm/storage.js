@@ -19,7 +19,33 @@ export default class MgbaStorage extends HTMLElement {
     uploadButton.textContent = 'Upload file...';
     this.appendChild(uploadButton);
     uploadButton.onclick = () => {
-      console.log('TODO');
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.click();
+      fileInput.onchange = async () => {
+        const file = fileInput.files[0];
+        const split = file.name.split('.');
+        if (split.length < 2) {
+          window.alert('unrecognized file extension: ' + file.name);
+          return;
+        }
+        const extension = split[split.length - 1].toLowerCase();
+        let dir = null;
+        if (extension === 'gba') {
+          dir = '/data/games/';
+        } else if (extension == 'sav') {
+          dir = '/data/saves/';
+        } else if (extension.startsWith('ss')) {
+          dir = '/data/states/';
+        } else {
+          window.alert('unrecognized file extension: ' + extension);
+          return;
+        }
+
+        const filepath = dir + file.name;
+        await FileLoader.saveFile(filepath, file);
+        this.refreshFiles();
+      };
     };
 
     const gamesTitle = document.createElement('h3');
@@ -96,10 +122,42 @@ export default class MgbaStorage extends HTMLElement {
       dialog.appendChild(fileName);
 
       const downloadButton = document.createElement('button');
+      downloadButton.textContent = 'Download';
+      dialog.appendChild(downloadButton);
+      downloadButton.onclick = () => {
+        FileLoader.downloadFile(filepath, filename);
+      };
+
+      dialog.appendChild(document.createElement('br'));
 
       const deleteButton = document.createElement('button');
+      dialog.appendChild(deleteButton);
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = async () => {
+        if (window.confirm('Delete this file? ' + filename)) {
+          window.Module.FS.unlink(filepath);
+          await FileLoader.writefs();
+          dialog.close();
+          dialog.remove();
+          this.refreshFiles();
+        }
+      };
+
+      dialog.appendChild(document.createElement('br'));
 
       const renameButton = document.createElement('button');
+      dialog.appendChild(renameButton);
+      renameButton.textContent = 'Rename';
+      renameButton.onclick = async () => {
+        const newFilename = window.prompt('Enter new filename for ' + filename);
+        if (newFilename) {
+          window.Module.FS.rename(filepath, filepath.replace(filename, newFilename));
+          await FileLoader.writefs();
+          dialog.close();
+          dialog.remove();
+          this.refreshFiles();
+        }
+      };
 
       dialog.showModal();
     };
