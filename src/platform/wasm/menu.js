@@ -1,6 +1,7 @@
 import MgbaGame from './game.js';
 import MgbaSettingsDialog from './settings.js';
 import * as FileLoader from './fileloader.js';
+import MgbaStorage from './storage.js';
 
 export default class MgbaMenu extends HTMLElement {
   async connectedCallback() {
@@ -23,9 +24,7 @@ export default class MgbaMenu extends HTMLElement {
       };
     };
 
-    const games = window.Module.FS.readdir('/data/games');
-    games.splice(games.indexOf('.'), 1);
-    games.splice(games.indexOf('..'), 1);
+    const games = FileLoader.readdirWithoutDotDirs('/data/games');
 
     if (games.length) {
       const title = document.createElement('h3');
@@ -43,6 +42,14 @@ export default class MgbaMenu extends HTMLElement {
         document.body.appendChild(mgbaGame);
       };
     }
+
+    const storageButton = document.createElement('button');
+    storageButton.textContent = 'Storage Manager';
+    this.appendChild(storageButton);
+    storageButton.onclick = () => {
+      this.remove();
+      document.body.appendChild(document.createElement('mgba-storage'));
+    };
 
     const settingsButton = document.createElement('button');
     settingsButton.classList.add('settings');
