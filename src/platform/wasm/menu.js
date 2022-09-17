@@ -11,10 +11,10 @@ export default class MgbaMenu extends HTMLElement {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.click();
-      fileInput.onchange = () => {
+      fileInput.onchange = async () => {
         const file = fileInput.files[0];
         const filepath = `/data/games/${file.name}`;
-        FileLoader.saveFile(filepath, file);
+        await FileLoader.saveFile(filepath, file);
 
         this.remove();
         const game = document.createElement('mgba-game');

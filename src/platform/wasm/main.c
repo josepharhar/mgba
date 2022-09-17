@@ -143,13 +143,13 @@ EMSCRIPTEN_KEEPALIVE void quitGame() {
 }
 
 EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
-
   if (core) {
     core->deinit(core);
     core = NULL;
   }
   core = mCoreFind(name);
   if (!core) {
+    printf("loadGame mCoreFind returned null\n");
     return false;
   }
   core->init(core);
