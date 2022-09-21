@@ -5,7 +5,11 @@ export default class MgbaInit extends HTMLElement {
   static async initMgba() {
     try {
       if (window.Module && window.Module._quitMgba) {
-        window.Module._quitMgba();
+        try {
+          window.Module._quitMgba();
+        } catch (error) {
+          // Qutting the program throws an exception i think
+        }
         window.Module = {};
       }
       if (!window.Module)
