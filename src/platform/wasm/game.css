@@ -1,6 +1,7 @@
 mgba-game {
   display: block;
   --controls-scale: min(13vw, 80px);
+  --half-width-control: max(calc(3*var(--controls-scale)), 47vw);
 }
 
 @media (orientation: landscape) {
@@ -92,9 +93,9 @@ mgba-game .controls-row {
 
 /* TODO implement pressed state for dpad */
 mgba-game .dpad {
-  /* this needs to be kept in sync with ab-container's width and height! */
-  height: calc(3*var(--controls-scale));
-  width: calc(3*var(--controls-scale));
+  height: var(--half-width-control);
+  width: var(--half-width-control);
+
   display: grid;
   grid-template-columns: auto auto auto;
 }
@@ -152,8 +153,8 @@ mgba-game .dpad > .center::before {
 mgba-game .ab-container {
   display: grid;
   grid-template-columns: auto auto;
-  height: calc(3*var(--controls-scale));
-  width: calc(3*var(--controls-scale));
+  height: var(--half-width-control);
+  width: var(--half-width-control);
 }
 mgba-game .ab-container > div {
   width: 100%;
