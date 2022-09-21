@@ -3,39 +3,44 @@ import * as FileLoader from './fileloader.js';
 
 export default class MgbaInit extends HTMLElement {
   static async initMgba() {
-    if (window.Module && window.Module._quitMgba) {
-      window.Module._quitMgba();
-      window.Module = {};
-    }
-    if (!window.Module)
-      window.Module = {};
-
-    window.Module.canvas = document.getElementById('canvas');
-
     try {
-      await mGBA(window.Module);
+      if (window.Module && window.Module._quitMgba) {
+        window.Module._quitMgba();
+        window.Module = {};
+      }
+      if (!window.Module)
+        window.Module = {};
+
+      window.Module.canvas = document.getElementById('canvas');
+
+      try {
+        await mGBA(window.Module);
+      } catch (error) {
+        console.error('mGBA() failed! ', error);
+        return false;
+      }
+
+      // set up filesystem, this was moved from main.c
+      window.Module.FS.mkdir('/data');
+      window.Module.FS.mount(window.Module.FS.filesystems.IDBFS, {}, '/data');
+      await FileLoader.readfs();
+      // When we read from indexedb, these directories may or may not exist.
+      // If we mkdir and they already exist they throw, so just catch all of them.
+      try {
+        window.Module.FS.mkdir('/data/saves');
+      } catch (e) {}
+      try {
+        window.Module.FS.mkdir('/data/states');
+      } catch (e) {}
+      try {
+        window.Module.FS.mkdir('/data/games');
+      } catch (e) {}
+
+      return true;
     } catch (error) {
-      console.error('mGBA() failed! ', error);
+      console.error('initMgba caught an error: ', error);
       return false;
     }
-
-    // set up filesystem, this was moved from main.c
-    window.Module.FS.mkdir('/data');
-    window.Module.FS.mount(window.Module.FS.filesystems.IDBFS, {}, '/data');
-    await FileLoader.readfs();
-    // When we read from indexedb, these directories may or may not exist.
-    // If we mkdir and they already exist they throw, so just catch all of them.
-    try {
-      window.Module.FS.mkdir('/data/saves');
-    } catch (e) {}
-    try {
-      window.Module.FS.mkdir('/data/states');
-    } catch (e) {}
-    try {
-      window.Module.FS.mkdir('/data/games');
-    } catch (e) {}
-
-    return true;
   }
 
   async connectedCallback() {
