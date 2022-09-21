@@ -1,6 +1,7 @@
 import * as FileLoader from './fileloader.js';
 import MgbaGameLoader from './gamemenu.js';
 import MgbaControls from './controls.js';
+import MgbaInit from './init.js';
 
 export default class MgbaGame extends HTMLElement {
   // Use setTimeout with 16ms delays for 60fps.
@@ -9,16 +10,21 @@ export default class MgbaGame extends HTMLElement {
   static fastLoopTiming = 8;
 
   async connectedCallback() {
+    this.canvas = document.getElementById('canvas');
+
+    // TODO this is hacky but loading the game again always breaks the c program
+    if (!await MgbaInit.initMgba()) {
+      const div = document.createElement('div');
+      div.textContent = 'mGBA initialization failed!';
+      this.appendChild(div);
+      return;
+    }
+
     this.appendChild(document.createElement('mgba-controls'));
 
-    //this.canvas = document.createElement('canvas');
-    //this.canvas.id = 'canvas';
-    this.canvas = document.getElementById('canvas');
     this.canvas.setAttribute('width', '240');
     this.canvas.setAttribute('height', '240');
     this.canvas.style = 'cursor: default;';
-    //this.canvas.classList.add('disabled');
-    this.appendChild(this.canvas);
 
     this.placeholder = document.createElement('div');
     this.appendChild(this.placeholder);
@@ -46,7 +52,7 @@ export default class MgbaGame extends HTMLElement {
     filepath = `/data/states/${filepath}.ss${autosaveSlot}`;
     try {
       await FileLoader.writefs();
-      if (window.Module.FS.stat(filepath)) {
+      if (window.Module.FS.stat(filepath) && window.confirm('Load save state?')) {
         window.Module._loadState(autosaveSlot);
       }
     } catch (e) {
@@ -71,6 +77,7 @@ export default class MgbaGame extends HTMLElement {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
+    this.canvas.classList.add('disabled');
   }
 }
 

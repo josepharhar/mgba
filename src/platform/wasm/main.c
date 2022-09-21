@@ -142,6 +142,10 @@ EMSCRIPTEN_KEEPALIVE void quitGame() {
   }
 }
 
+EMSCRIPTEN_KEEPALIVE void quitMgba() {
+  exit(0);
+}
+
 EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   if (core) {
     core->deinit(core);
@@ -188,7 +192,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   SDL_LockTexture(tex, 0, (void**) &buffer, &stride);
   core->setVideoBuffer(core, buffer, stride / BYTES_PER_PIXEL);
 
-  core->reset(core);
+  core->reset(core); // this is the one that gags. maybe it would be better to restart the whole wasm program.
 
   core->desiredVideoDimensions(core, &w, &h);
   SDL_SetWindowSize(window, w, h);

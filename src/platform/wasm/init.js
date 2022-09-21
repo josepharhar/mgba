@@ -2,25 +2,21 @@ import MgbaMenu from './menu.js';
 import * as FileLoader from './fileloader.js';
 
 export default class MgbaInit extends HTMLElement {
-  async connectedCallback() {
-    const loading = document.createElement('h2');
-    loading.textContent = 'Loading mGBA...';
-    this.appendChild(loading);
-
-    const canvas = document.createElement('canvas');
-    canvas.id = 'canvas';
-    canvas.classList.add('disabled');
-    document.body.appendChild(canvas);
-
+  static async initMgba() {
+    if (window.Module && window.Module._quitMgba) {
+      window.Module._quitMgba();
+      window.Module = {};
+    }
     if (!window.Module)
       window.Module = {};
-    window.Module.canvas = canvas;
+
+    window.Module.canvas = document.getElementById('canvas');
+
     try {
       await mGBA(window.Module);
     } catch (error) {
-      console.log('mGBA() failed! ', error);
-      loading.textContent = 'mGBA() failed! error: ' + error;
-      return;
+      console.error('mGBA() failed! ', error);
+      return false;
     }
 
     // set up filesystem, this was moved from main.c
@@ -39,6 +35,22 @@ export default class MgbaInit extends HTMLElement {
       window.Module.FS.mkdir('/data/games');
     } catch (e) {}
 
+    return true;
+  }
+
+  async connectedCallback() {
+    const loading = document.createElement('h2');
+    loading.textContent = 'Loading mGBA...';
+    this.appendChild(loading);
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'canvas';
+    canvas.classList.add('disabled');
+    document.body.appendChild(canvas);
+
+    if (!await MgbaInit.initMgba()) {
+      loading.textContent = 'mGBA initialization failed!';
+    }
 
     this.remove();
     document.body.appendChild(document.createElement('mgba-menu'));

@@ -73,6 +73,7 @@ export default class MgbaGameMenu extends HTMLElement {
       try {
         window.Module._quitGame();
       } catch (e) {}
+      dialog.close();
       this.remove();
       document.querySelector('mgba-game').remove();
       document.body.appendChild(document.createElement('mgba-menu'));

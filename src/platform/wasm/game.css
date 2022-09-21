@@ -1,12 +1,13 @@
 mgba-game {
   display: block;
   --controls-scale: min(13vw, 80px);
-  --half-width-control: max(calc(3*var(--controls-scale)), 47vw);
+  --half-width-control: 47vw;
 }
 
 @media (orientation: landscape) {
   mgba-game {
     --controls-scale: min(75px, 15vh);
+    --half-width-control: calc(3*var(--controls-scale));
   }
   #canvas {
     height: 100vh;
