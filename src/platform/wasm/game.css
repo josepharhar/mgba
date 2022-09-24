@@ -56,6 +56,9 @@ mgba-game .button-container {
   margin: auto;
   margin-bottom: 26px;
   user-select: none;*/
+
+  /* TODO consider using padding-top for the canvas */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 mgba-game .button {

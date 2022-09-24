@@ -17,6 +17,6 @@ button {
 mgba-menu > button.settings {
   display: block;
   position: absolute;
-  bottom: 0;
+  bottom: env(safe-area-inset-bottom);
   left: 0;
 }
