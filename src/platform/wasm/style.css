@@ -5,6 +5,13 @@
 
 body {
   margin: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+dialog {
+  user-select: all;
+  -webkit-user-select: all;
 }
 
 button {

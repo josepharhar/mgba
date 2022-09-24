@@ -48,14 +48,7 @@ mgba-game .button-container {
 
   z-index: 5;
   opacity: 0.7;
-  user-select: none;
   font-family: sans-serif;
-
-  /*max-width: 400px;
-  width: 100vw;
-  margin: auto;
-  margin-bottom: 26px;
-  user-select: none;*/
 
   /* TODO consider using padding-top for the canvas */
   padding-bottom: env(safe-area-inset-bottom);
