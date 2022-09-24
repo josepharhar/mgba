@@ -41,13 +41,13 @@ export default class MgbaControls extends HTMLElement {
     [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select']].forEach(([element, buttonName]) => {
       ['mousedown', 'touchstart'].forEach(eventName => {
         element.addEventListener(eventName, () => {
-          this.buttonPress(element.className);
+          this.buttonPress(buttonName);
           element.classList.add('pressed');
         });
       });
       ['mouseup', 'touchend', 'touchcancel'].forEach(eventName => {
         element.addEventListener(eventName, () => {
-          this.buttonUnpress(element.className);
+          this.buttonUnpress(buttonName);
           element.classList.remove('pressed');
         });
       });
