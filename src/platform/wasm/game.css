@@ -2,6 +2,7 @@ mgba-game {
   display: block;
   --controls-scale: min(13vw, 80px);
   --half-width-control: 47vw;
+  overflow: hidden;
 }
 
 @media (orientation: landscape) {
@@ -22,6 +23,7 @@ mgba-game {
   display: block;
   position: absolute;
   background-color: black;
+  overflow: hidden;
 }
 #canvas.disabled {
   display: none;
@@ -52,6 +54,9 @@ mgba-game .button-container {
 
   /* TODO consider using padding-top for the canvas */
   padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-top: env(safe-area-inset-top);
 }
 
 mgba-game .button {

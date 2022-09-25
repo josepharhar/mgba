@@ -116,6 +116,7 @@ export default class MgbaControls extends HTMLElement {
         return;
       updateDpad(event);
     };
+    // TODO add pointerenter to make dragging work on mobile!
     dpad.onpointerdown = event => updateDpad(event);
     dpad.onpointerup = () => clearDpad();
     dpad.onpointerleave = () => clearDpad();
