@@ -104,6 +104,7 @@ export default class MgbaStorage extends HTMLElement {
     button.textContent = filename;
     button.onclick = () => {
       const dialog = document.createElement('dialog');
+      dialog.onclose = () => dialog.remove();
       this.appendChild(dialog);
 
       const closeButton = document.createElement('button');

@@ -1,6 +1,7 @@
 export default class MgbaSettingsDialog extends HTMLElement {
   connectedCallback() {
     const dialog = document.createElement('dialog');
+    dialog.onclose = () => dialog.remove();
     this.appendChild(dialog);
 
     const title = document.createElement('h1');

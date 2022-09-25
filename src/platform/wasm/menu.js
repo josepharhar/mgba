@@ -61,6 +61,7 @@ export default class MgbaMenu extends HTMLElement {
     this.appendChild(aboutButton);
     aboutButton.onclick = () => {
       const dialog = document.createElement('dialog');
+      dialog.onclose = () => dialog.remove();
       this.appendChild(dialog);
 
       const version = document.createElement('div');

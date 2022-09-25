@@ -5,6 +5,7 @@ import * as FileLoader from './fileloader.js';
 export default class MgbaGameMenu extends HTMLElement {
   connectedCallback() {
     const dialog = document.createElement('dialog');
+    dialog.onclose = () => dialog.remove();
     this.appendChild(dialog);
 
     const closeButton = document.createElement('button');
