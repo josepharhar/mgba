@@ -1,8 +1,11 @@
 {
   "display": "standalone",
   "name": "mGBA",
+  "short_name": "mGBA",
+  "description": "mGBA",
   "color": "#0000FF",
   "background_color": "#000022",
+  "start_url": "/index.html",
   "icons": [
     {
       "src": "icons/mgba-1024.png"

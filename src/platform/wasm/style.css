@@ -19,11 +19,3 @@ button {
   margin: 10px;
   padding: 10px;
 }
-
-/* TODO move mgba-* settings to individual files */
-mgba-menu > button.settings {
-  display: block;
-  position: absolute;
-  bottom: env(safe-area-inset-bottom);
-  left: 0;
-}
