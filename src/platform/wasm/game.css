@@ -2,6 +2,9 @@ mgba-game {
   display: block;
   --controls-scale: min(13vw, 80px);
   --half-width-control: 47vw;
+}
+
+body.in-game {
   overflow: hidden;
 }
 
@@ -23,7 +26,6 @@ mgba-game {
   display: block;
   position: absolute;
   background-color: black;
-  overflow: hidden;
 }
 #canvas.disabled {
   display: none;

@@ -10,6 +10,8 @@ export default class MgbaGame extends HTMLElement {
   static fastLoopTiming = 8;
 
   async connectedCallback() {
+    document.body.classList.add('in-game');
+
     this.canvas = document.getElementById('canvas');
 
     // TODO this is hacky but loading the game again always breaks the c program
@@ -74,6 +76,7 @@ export default class MgbaGame extends HTMLElement {
   }
 
   disconnectedCallback() {
+    document.body.classList.remove('in-game');
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
