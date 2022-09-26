@@ -59,6 +59,14 @@ export default class MgbaGameMenu extends HTMLElement {
       }
     };
 
+    const controlsToggleButton = document.createElement('button');
+    controlsToggleButton.textContent = 'Toggle Buttons';
+    dialog.appendChild(controlsToggleButton);
+    controlsToggleButton.onclick = () => {
+      const game = document.querySelector('mgba-game');
+      game.toggleTouchControls();
+    };
+
     const settingsButton = document.createElement('button');
     settingsButton.textContent = 'Settings';
     settingsButton.onclick = () => {

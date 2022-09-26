@@ -22,7 +22,8 @@ export default class MgbaGame extends HTMLElement {
       return;
     }
 
-    this.appendChild(document.createElement('mgba-controls'));
+    this.controls = document.createElement('mgba-controls');
+    this.appendChild(this.controls);
 
     this.canvas.setAttribute('width', '240');
     this.canvas.setAttribute('height', '240');
@@ -81,6 +82,15 @@ export default class MgbaGame extends HTMLElement {
       clearTimeout(this.timeout);
     }
     this.canvas.classList.add('disabled');
+  }
+
+  toggleTouchControls() {
+    if (this.controls) {
+      this.controls.remove();
+    } else {
+      this.controls = document.createElement('mgba-controls');
+      this.appendChild(this.controls);
+    }
   }
 }
 

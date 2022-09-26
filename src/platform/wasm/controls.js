@@ -203,7 +203,7 @@ export default class MgbaControls extends HTMLElement {
     menu.classList.add('button');
     menuRow.appendChild(menu);
     menu.onclick = () => {
-      this.appendChild(document.createElement('mgba-game-menu'));
+      document.querySelector('mgba-game').appendChild(document.createElement('mgba-game-menu'));
     };
 
     const selectStartContainer = document.createElement('div');
