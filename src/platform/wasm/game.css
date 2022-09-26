@@ -8,7 +8,8 @@ body.in-game {
   overflow: hidden;
 }
 
-@media (orientation: landscape) {
+/* this is intended for mobile devices */
+@media (min-width: 481px) {
   mgba-game {
     --controls-scale: min(75px, 15vh);
     --half-width-control: calc(3*var(--controls-scale));
