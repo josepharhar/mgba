@@ -5,10 +5,10 @@
   "description": "mGBA",
   "color": "#0000FF",
   "background_color": "#000022",
-  "start_url": "/index.html",
+  "start_url": "/",
   "icons": [
     {
-      "src": "icons/mgba-1024.png"
+      "src": "/icons/mgba-1024.png"
     }
   ]
 }

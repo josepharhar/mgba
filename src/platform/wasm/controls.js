@@ -1,4 +1,3 @@
-// TODO I wonder if i could have an integration test for these mappings...
 const buttonNameToId = new Map();
 buttonNameToId.set('a', 0);
 buttonNameToId.set('b', 1);
