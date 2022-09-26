@@ -23,7 +23,7 @@ export default class MgbaGameMenu extends HTMLElement {
     dialog.appendChild(saveButton);
     saveButton.onclick = async () => {
       saveButton.disabled = true;
-      await FileLoader.syncfs();
+      await FileLoader.writefs();
       saveButton.disabled = false;
     };
 
@@ -33,7 +33,7 @@ export default class MgbaGameMenu extends HTMLElement {
     saveStateButton.onclick = async () => {
       saveStateButton.disabled = true;
       window.Module._saveState(1);
-      await FileLoader.syncfs();
+      await FileLoader.writefs();
       saveStateButton.disabled = false;
     };
 
