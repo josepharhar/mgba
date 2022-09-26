@@ -2,7 +2,6 @@ import MgbaGame from './game.js';
 import MgbaSettingsDialog from './settings.js';
 import * as FileLoader from './fileloader.js';
 import MgbaStorage from './storage.js';
-import * as Version from './build/version.js';
 
 export default class MgbaMenu extends HTMLElement {
   async connectedCallback() {
@@ -65,11 +64,11 @@ export default class MgbaMenu extends HTMLElement {
       this.appendChild(dialog);
 
       const version = document.createElement('div');
-      version.textContent = 'mGBA ' + Version.version();
+      version.textContent = `${window.Module.version.projectName} ${window.Module.version.projectVersion}`;
       dialog.appendChild(version);
 
       const commit = document.createElement('div');
-      commit.textContent = 'commit ' + Version.commit();
+      commit.textContent = `commit ${window.Module.version.gitShort}`;
       dialog.appendChild(commit);
 
       const closeButton = document.createElement('button');
