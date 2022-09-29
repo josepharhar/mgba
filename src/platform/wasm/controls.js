@@ -53,52 +53,34 @@ export default class MgbaControls extends HTMLElement {
     });
 
     const dpad = this.querySelector('.dpad');
-    const dpadUpLeft = dpad.children[0];
-    const dpadUp = dpad.children[1];
-    const dpadUpRight = dpad.children[2];
-    const dpadLeft = dpad.children[3];
-    const dpadRight = dpad.children[5];
-    const dpadDownLeft = dpad.children[6];
-    const dpadDown = dpad.children[7];
-    const dpadDownRight = dpad.children[8];
+    const clearDpad = () => {
+      for (const name of ['Up', 'Down', 'Left', 'Right'])
+        this.buttonUnpress(name);
+    };
     const updateDpad = event => {
+      const offsetLeft = event.target.offsetLeft - dpad.offsetLeft;
+      const offsetTop = event.target.offsetTop - dpad.offsetTop;
+
+      const x = (offsetLeft + event.offsetX) / dpad.offsetWidth;
+      const y = (offsetTop + event.offsetY) / dpad.offsetHeight;
+      const threshold = 1 / 3;
       const pressed = {
+        Left: false,
+        Right: false,
         Up: false,
         Down: false,
-        Left: false,
-        Right: false
-      };
-      switch (event.target) {
-        case dpadUpLeft:
-          pressed.Left = true;
-          pressed.Up = true;
-          break;
-        case dpadUp:
-          pressed.Up = true;
-          break;
-        case dpadUpRight:
-          pressed.Right = true;
-          pressed.Up = true;
-          break;
-        case dpadLeft:
-          pressed.Left = true;
-          break;
-        case dpadRight:
-          pressed.Right = true;
-          break;
-        case dpadDownLeft:
-          pressed.Down = true;
-          pressed.Left = true;
-          break;
-        case dpadDown:
-          pressed.Down = true;
-          break;
-        case dpadDownRight:
-          pressed.Down = true;
-          pressed.Right = true;
-          break;
       }
-      for (const name of ['Up', 'Down', 'Left', 'Right']) {
+      if (x < threshold) {
+        pressed.Left = true;
+      } else if (x > 1 - threshold) {
+        pressed.Right = true;
+      }
+      if (y < threshold) {
+        pressed.Up = true;
+      } else if (y > 1 - threshold) {
+        pressed.Down = true;
+      }
+      for (const name of ['Left', 'Right', 'Up', 'Down']) {
         if (pressed[name]) {
           this.buttonPress(name);
         } else {
@@ -106,17 +88,13 @@ export default class MgbaControls extends HTMLElement {
         }
       }
     };
-    const clearDpad = () => {
-      for (const name of ['Up', 'Down', 'Left', 'Right'])
-        this.buttonUnpress(name);
-    };
+
+    dpad.onpointerdown = event => updateDpad(event);
     dpad.onpointermove = event => {
       if (!event.buttons && event.pointerType === 'mouse')
         return;
       updateDpad(event);
     };
-    // TODO add pointerenter to make dragging work on mobile!
-    dpad.onpointerdown = event => updateDpad(event);
     dpad.onpointerup = () => clearDpad();
     dpad.onpointerleave = () => clearDpad();
   }
