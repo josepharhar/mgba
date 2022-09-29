@@ -6,6 +6,7 @@
   "color": "#0000FF",
   "background_color": "#000022",
   "start_url": "/",
+  "orientation": "any",
   "icons": [
     {
       "src": "/icons/mgba-1024-square.png",
