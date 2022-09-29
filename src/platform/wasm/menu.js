@@ -71,6 +71,21 @@ export default class MgbaMenu extends HTMLElement {
       commit.textContent = `commit ${window.Module.version.gitShort}`;
       dialog.appendChild(commit);
 
+      const updateButton = document.createElement('button');
+      updateButton.onclick = async () => {
+        updateButton.disabled = true;
+        try {
+          const serviceWorker = await navigator.serviceWorker.ready;
+          await serviceWorker.update();
+        } catch (error) {
+          console.error('serviceWorker error: ', error);
+          window.alert('Encountered an error getting the service worker.');
+        }
+        updateButton.disabled = false;
+      };
+      updateButton.textContent = 'Attempt update';
+      dialog.appendChild(updateButton);
+
       const closeButton = document.createElement('button');
       closeButton.textContent = 'Close';
       closeButton.onclick = () => {
