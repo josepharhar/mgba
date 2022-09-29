@@ -24,12 +24,13 @@ mkdir -p src/platform/wasm/build
 cp build-wasm/wasm/mgba.js src/platform/wasm/build
 cp build-wasm/wasm/mgba.wasm src/platform/wasm/build
 
-cp src/platform/wasm/serviceworker.js src/platform/wasm/build/serviceworker.js
+SW_BUILD_PATH=src/platform/wasm/serviceworker.out.js
+cp src/platform/wasm/serviceworker.js $SW_BUILD_PATH
 COMMIT=$(git rev-parse --short HEAD)
 if [ `uname` = 'Darwin' ]; then
-  sed -i '' -e s/GITCOMMIT/${COMMIT}/g src/platform/wasm/build/serviceworker.js
+  sed -i '' -e s/GITCOMMIT/${COMMIT}/g $SW_BUILD_PATH
 else
-  sed -i s/GITCOMMIT/${COMMIT}/g src/platform/wasm/build/serviceworker.js
+  sed -i s/GITCOMMIT/${COMMIT}/g $SW_BUILD_PATH
 fi
 
 #(cd src/platform/wasm && python3 -m http.server)
