@@ -36,11 +36,8 @@ EMSCRIPTEN_KEEPALIVE void buttonUnpress(int id) {
 }
 
 EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
-  printf("setVolume: %d\n", volume);
   core->opts.volume = volume;
-  // TODO how do i make the volume actually change?
-  //mCoreConfigMap(&core->config, &core->opts);
-  //mCoreConfigSave(&core->config);
+  core->reloadConfigOption(core, NULL, NULL);
 }
 EMSCRIPTEN_KEEPALIVE int getVolume() {
   return core->opts.volume;
