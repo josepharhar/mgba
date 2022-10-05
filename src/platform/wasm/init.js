@@ -48,21 +48,27 @@ export default class MgbaInit extends HTMLElement {
   }
 
   async connectedCallback() {
-    const loading = document.createElement('h2');
-    loading.textContent = 'Loading mGBA...';
-    this.appendChild(loading);
-
     const canvas = document.createElement('canvas');
     canvas.id = 'canvas';
     canvas.classList.add('disabled');
     document.body.appendChild(canvas);
 
-    if (!await MgbaInit.initMgba()) {
-      loading.textContent = 'mGBA initialization failed!';
-    }
+    const loadButton = document.createElement('button');
+    loadButton.textContent = 'load';
+    this.appendChild(loadButton);
+    loadButton.onclick = async () => {
+      const loading = document.createElement('h2');
+      loading.textContent = 'Loading mGBA...';
+      this.appendChild(loading);
 
-    this.remove();
-    document.body.appendChild(document.createElement('mgba-menu'));
+      if (!await MgbaInit.initMgba()) {
+        loading.textContent = 'mGBA initialization failed!';
+      }
+
+      this.remove();
+
+      document.body.appendChild(document.createElement('mgba-menu'));
+    };
   }
 }
 
