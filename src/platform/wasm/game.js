@@ -46,6 +46,15 @@ export default class MgbaGame extends HTMLElement {
 
     const romFilepath = `/data/games/${this.name}`;
     FileLoader.loadGame(romFilepath);
+
+    // volume
+    try {
+      const volumeSetting = localStorage.getItem('volume');
+      if (volumeSetting)
+        window.Module._setVolume(volumeSetting);
+    } catch (error) {
+      console.error('setting volume threw an error! ', error);
+    }
     
     const autosaveSlot = 0;
 

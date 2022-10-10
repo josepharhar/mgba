@@ -97,13 +97,13 @@ export default class MgbaMenu extends HTMLElement {
       dialog.showModal();
     };
 
-    const settingsButton = document.createElement('button');
+    /*const settingsButton = document.createElement('button');
     settingsButton.classList.add('settings');
     settingsButton.textContent = 'Settings';
     this.appendChild(settingsButton);
     settingsButton.onclick = () => {
       document.body.appendChild(document.createElement('mgba-settings-dialog'));
-    };
+    };*/
   }
 };
 

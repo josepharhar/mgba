@@ -19,7 +19,7 @@ export default class MgbaSettingsDialog extends HTMLElement {
       this.remove();
     };
 
-    const volumeLabel = document.createElement('label');
+    /*const volumeLabel = document.createElement('label');
     volumeLabel.textContent = 'Volume';
     dialog.appendChild(volumeLabel);
     const volumeInput = document.createElement('input');
@@ -28,8 +28,10 @@ export default class MgbaSettingsDialog extends HTMLElement {
     volumeInput.min = 0;
     volumeInput.max = 0x100;
     volumeInput.oninput = () => {
+      console.log('volumeInput.value: ' + volumeInput.value);
       window.Module._setVolume(volumeInput.value);
-    };
+      localStorage.setItem('volume', window.Module._getVolume());
+    };*/
 
     dialog.showModal();
   }

@@ -67,13 +67,13 @@ export default class MgbaGameMenu extends HTMLElement {
       game.toggleTouchControls();
     };
 
-    const settingsButton = document.createElement('button');
+    /*const settingsButton = document.createElement('button');
     settingsButton.textContent = 'Settings';
     settingsButton.onclick = () => {
       this.remove();
       document.body.appendChild(document.createElement('mgba-settings-dialog'));
     };
-    dialog.appendChild(settingsButton);
+    dialog.appendChild(settingsButton);*/
 
     const quitButton = document.createElement('button');
     quitButton.textContent = 'Quit';
@@ -87,6 +87,32 @@ export default class MgbaGameMenu extends HTMLElement {
       document.querySelector('mgba-game').remove();
       document.body.appendChild(document.createElement('mgba-menu'));
     }
+
+    const volumeContainer = document.createElement('div');
+    volumeContainer.style = 'display: inline-block; border: 1px solid gray; padding: 3px;';
+    dialog.appendChild(volumeContainer);
+    const volumeLabel = document.createElement('label');
+    volumeLabel.textContent = 'Volume';
+    volumeContainer.appendChild(volumeLabel);
+    const volumeInput = document.createElement('input');
+    volumeLabel.appendChild(volumeInput);
+    volumeInput.type = 'range';
+    volumeInput.min = 0;
+    volumeInput.max = 0x100;
+    volumeInput.defaultValue = window.Module._getVolume();
+    volumeInput.oninput = () => {
+      window.Module._setVolume(volumeInput.value);
+      localStorage.setItem('volume', window.Module._getVolume());
+    };
+
+    const muteButton = document.createElement('button');
+    muteButton.textContent = 'Mute';
+    dialog.appendChild(muteButton);
+    muteButton.onclick = () => {
+      window.Module._setVolume(0);
+      volumeInput.value = 0;
+      localStorage.setItem('volume', 0);
+    };
 
     dialog.showModal();
   }

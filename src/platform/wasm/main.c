@@ -40,6 +40,7 @@ EMSCRIPTEN_KEEPALIVE void setVolume(int volume) {
   core->reloadConfigOption(core, NULL, NULL);
 }
 EMSCRIPTEN_KEEPALIVE int getVolume() {
+  // TODO if this is called before setVolume, it always returns zero!
   return core->opts.volume;
 }
 
@@ -159,7 +160,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
 
   // 0x100 is max volume i think
   // wait... changing this doesnt even affect the volume!
-  core->opts.volume = 0;
+  //core->opts.volume = 0;
 
   // TODO also do savestates here somehow...
   if (!mCoreLoadFile(core, name)) {
