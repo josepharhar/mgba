@@ -24,8 +24,7 @@ export default class MgbaControls extends HTMLElement {
     buttonContainer.classList.add('button-container');
     this.appendChild(buttonContainer);
 
-    const bufferRow = document.createElement('div');
-    buttonContainer.appendChild(bufferRow);
+    this.addCanvasContainer(buttonContainer);
     this.addShoulderRow(buttonContainer);
     this.addControlsRow(buttonContainer);
     this.addMenuRow(buttonContainer);
@@ -198,6 +197,26 @@ export default class MgbaControls extends HTMLElement {
     selectStartContainer.appendChild(start);
 
     menuRow.appendChild(document.createElement('div'));
+  }
+
+  addCanvasContainer(container) {
+    //container.appendChild(document.getElementById('canvas-container'));
+
+    const canvasContainer = document.createElement('div');
+    canvasContainer.id = 'canvas-container';
+    container.appendChild(canvasContainer);
+
+    canvasContainer.appendChild(document.createElement('div'));
+    //const canvas = document.getElementById('canvas');
+    /*const canvasContainerContainer = document.createElement('div');
+    canvasContainerContainer.appendChild(document.getElementById('canvas'));
+    canvasContainer.appendChild(canvasContainerContainer);*/
+    canvasContainer.appendChild(canvas);
+    canvasContainer.appendChild(document.createElement('div'));
+  }
+
+  disconnectedCallback() {
+    document.body.appendChild(document.getElementById('canvas'));
   }
 }
 

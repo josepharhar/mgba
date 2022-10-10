@@ -8,29 +8,52 @@ body.in-game {
   overflow: hidden;
 }
 
-/* this is intended for mobile devices */
-@media (min-width: 481px) {
-  mgba-game {
-    --controls-scale: min(75px, 15vh);
-    --half-width-control: calc(3*var(--controls-scale));
-  }
-  #canvas {
-    height: 100vh;
-  }
-}
-
 #canvas {
   image-rendering: crisp-edges; /* TODO make this configurable */
   width: 100vw;
   /* height: 100vh; */
   object-fit: contain;
   display: block;
-  position: absolute;
+  /*position: absolute;*/
   background-color: black;
 }
 #canvas.disabled {
   display: none;
 }
+
+/* this is intended for mobile devices */
+@media (min-width: 481px) {
+  mgba-game {
+    --controls-scale: min(75px, 15vh);
+    --half-width-control: calc(3*var(--controls-scale));
+  }
+  /*#canvas {
+    height: 100vh;
+  }*/
+}
+
+#canvas-container {
+}
+@media (min-aspect-ratio: 1/1) { /* widescreen/landscape */
+  /* shrink the canvas towards the middle to not overlay with the controls */
+  #button-container::before {
+    content: ' ';
+    display: block;
+  }
+  #canvas-container {
+    height: 100vh;
+    position: fixed;
+    display: grid;
+    grid-template-columns: var(--half-width-control) auto var(--half-width-control);
+    width: 100vw;
+    /*display: flex;*/
+  }
+  #canvas {
+    width: 100%;
+    max-height: 100vh;
+  }
+}
+
 
 
 mgba-game .placeholder {
@@ -181,7 +204,7 @@ mgba-game .menu-row {
   /*display: flex;
   justify-content: space-between;*/
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
 }
 mgba-game .menu::before {
   content: 'MENU';
@@ -192,10 +215,12 @@ mgba-game .menu {
   align-items: center;
 }
 mgba-game .select-start-container {
+  width: var(--half-width-control);
   display: flex;
 }
 mgba-game .select,
 mgba-game .start {
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
