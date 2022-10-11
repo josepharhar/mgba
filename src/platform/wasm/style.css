@@ -9,7 +9,7 @@ body {
   -webkit-user-select: none;
 }
 
-dialog {
+mgba-storage dialog div {
   user-select: all;
   -webkit-user-select: all;
 }
