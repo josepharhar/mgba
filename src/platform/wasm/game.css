@@ -21,47 +21,11 @@ body.in-game {
   display: none;
 }
 
-/* this is intended for mobile devices */
-@media (min-width: 481px) {
-  mgba-game {
-    --controls-scale: min(75px, 15vh);
-    --half-width-control: calc(3*var(--controls-scale));
-  }
-  /*#canvas {
-    height: 100vh;
-  }*/
-}
-
-#canvas-container {
-}
-@media (min-aspect-ratio: 1/1) { /* widescreen/landscape */
-  /* shrink the canvas towards the middle to not overlay with the controls */
-  #button-container::before {
-    content: ' ';
-    display: block;
-  }
-  #canvas-container {
-    height: 100vh;
-    position: fixed;
-    display: grid;
-    grid-template-columns: var(--half-width-control) auto var(--half-width-control);
-    width: 100vw;
-    /*display: flex;*/
-  }
-  #canvas {
-    width: 100%;
-    max-height: 100vh;
-  }
-}
-
-
-
 mgba-game .placeholder {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 
 mgba-game .button-container {
   position: fixed;
@@ -236,4 +200,57 @@ mgba-game .select::before {
 }
 mgba-game .start::before {
   content: 'START';
+}
+
+
+/* this is intended for mobile devices */
+@media (min-width: 481px) {
+  mgba-game {
+    --controls-scale: min(75px, 15vh);
+    --half-width-control: calc(3*var(--controls-scale));
+  }
+  /*#canvas {
+    height: 100vh;
+  }*/
+}
+
+@media (min-aspect-ratio: 1/1) { /* widescreen/landscape */
+  /* shrink the canvas towards the middle to not overlay with the controls */
+  /*#button-container::before {
+    content: ' ';
+    display: block;
+  }*/
+  mgba-game .button-container {
+    /* for some reason safe-area-inset-top is always zero on ios.
+     * this makes the L and R buttons get chopped off by the top corners. */
+    padding-top: env(safe-area-inset-bottom);
+    padding-left: 0;
+    padding-right: 0;
+    height: calc(100% - 2 * env(safe-area-inset-bottom));
+    width: 100%;
+  }
+  #canvas-container {
+    height: 100vh;
+    position: fixed;
+    display: grid;
+    grid-template-columns: var(--half-width-control) auto var(--half-width-control);
+    width: 100vw;
+    /*display: flex;*/
+    z-index: -1; /* this makes the buttons pressable */
+  }
+  #canvas {
+    width: 100%;
+    max-height: 100vh;
+  }
+
+  mgba-game .ab-container {
+    grid-template-columns: unset;
+    grid-template-rows: auto auto;
+    grid-gap: 6px;
+  }
+  mgba-game .ab-container > div {
+  }
+  mgba-game .ab-container > div.ab-placeholder {
+    display: none;
+  }
 }

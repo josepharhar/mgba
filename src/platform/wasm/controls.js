@@ -157,16 +157,24 @@ export default class MgbaControls extends HTMLElement {
     const abContainer = document.createElement('div');
     abContainer.classList.add('ab-container');
     controlsRow.appendChild(abContainer);
-    abContainer.appendChild(document.createElement('div'));
+
+    const placeholderOne = document.createElement('div');
+    placeholderOne.classList.add('ab-placeholder');
+    abContainer.appendChild(placeholderOne);
+
     const a = document.createElement('div');
     a.classList.add('A');
     a.classList.add('button');
     abContainer.appendChild(a);
+
     const b = document.createElement('div');
     b.classList.add('B');
     b.classList.add('button');
     abContainer.appendChild(b);
-    abContainer.appendChild(document.createElement('div'));
+
+    const placeholderTwo = document.createElement('div');
+    placeholderTwo.classList.add('ab-placeholder');
+    abContainer.appendChild(placeholderTwo);
   }
 
   addMenuRow(container) {
