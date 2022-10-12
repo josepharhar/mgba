@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>mGBA</title>
+<link rel=manifest href="manifest.json">
+<link rel=icon href="icons/mgba.ico">
+<link rel=apple-touch-icon href="icons/mgba-1024.png">
+<!-- TODO find a way to import styles from their corresponding javascript file -->
+<link rel=stylesheet href="style.css">
+<link rel=stylesheet href="game.css">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui,viewport-fit=cover">
+<script>
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/serviceworker.out.js');
+  }
+</script>
+<script src="build/mgba.js"></script>
+<script type=module src="init.js"></script>
+<mgba-init />
