@@ -95,7 +95,9 @@ export default class MgbaGame extends HTMLElement {
 
   toggleTouchControls() {
     if (this.controls) {
+      document.body.appendChild(document.getElementById('canvas'));
       this.controls.remove();
+      this.controls = null;
     } else {
       this.controls = document.createElement('mgba-controls');
       this.appendChild(this.controls);
