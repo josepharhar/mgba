@@ -5,6 +5,9 @@ import * as FileLoader from './fileloader.js';
 export default class MgbaGameMenu extends HTMLElement {
   connectedCallback() {
     const dialog = document.createElement('dialog');
+    // TODO this dialog is a popover just for light dismiss. if light dismiss
+    // for dialogs ever gets implemented, then use that here instead.
+    dialog.setAttribute('popover', 'auto');
     dialog.onclose = () => dialog.remove();
     this.appendChild(dialog);
 
@@ -12,7 +15,7 @@ export default class MgbaGameMenu extends HTMLElement {
     closeButton.textContent = 'Close menu';
     dialog.appendChild(closeButton);
     closeButton.onclick = () => {
-      dialog.close();
+      dialog.hidePopover();
       this.remove();
     };
 
@@ -92,7 +95,7 @@ export default class MgbaGameMenu extends HTMLElement {
       try {
         window.Module._quitGame();
       } catch (e) {}
-      dialog.close();
+      dialog.hidePopover();
       this.remove();
       document.querySelector('mgba-game').remove();
       document.body.appendChild(document.createElement('mgba-menu'));
@@ -124,7 +127,7 @@ export default class MgbaGameMenu extends HTMLElement {
       localStorage.setItem('volume', 0);
     };
 
-    dialog.showModal();
+    dialog.showPopover();
   }
 };
 
