@@ -162,7 +162,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   // wait... changing this doesnt even affect the volume!
   //core->opts.volume = 0;
 
-  // this was added from upstream or something
+  // TODO how does all of this window dimensions code interact with the actual page...?
   unsigned w, h;
   core->baseVideoSize(core, &w, &h);
   if (tex) {
@@ -184,16 +184,7 @@ EMSCRIPTEN_KEEPALIVE bool loadGame(const char* name) {
   }
   // TODO if this is for detecting keypresses in the webpage, I should probably try to remove it.
   mSDLInitBindingsGBA(&core->inputMap);
->>>>>>> 853c00c2b (squash frontend)
 
-  // TODO how does all of this window dimensions code interact with the actual page...?
-
-  unsigned w, h;
-  core->desiredVideoDimensions(core, &w, &h);
-  if (tex) {
-    SDL_DestroyTexture(tex);
-  }
-  tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, w, h);
 
   int stride;
   SDL_LockTexture(tex, 0, (void**) &buffer, &stride);

@@ -47,6 +47,15 @@ export default class MgbaGameMenu extends HTMLElement {
     const speedToggleButton = document.createElement('button');
     speedToggleButton.textContent = 'Toggle Speed';
     dialog.appendChild(speedToggleButton);
+    const updateSpeedButtonText = () => {
+      const timing = window.Module._getMainLoopTiming();
+      if (timing == MgbaGame.mainLoopTiming) {
+        speedToggleButton.style.color = '';
+      } else if (timing == MgbaGame.fastLoopTiming) {
+        speedToggleButton.style.color = 'red';
+      }
+    };
+    updateSpeedButtonText();
     speedToggleButton.onclick = () => {
       const timing = window.Module._getMainLoopTiming();
       console.log('timing: ' + timing);
@@ -57,6 +66,7 @@ export default class MgbaGameMenu extends HTMLElement {
       } else {
         console.log('unrecognized timing: ' + timing);
       }
+      updateSpeedButtonText();
     };
 
     const controlsToggleButton = document.createElement('button');
