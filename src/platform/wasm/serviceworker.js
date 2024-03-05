@@ -2,14 +2,16 @@
 
 const cacheName = 'mgba-GITCOMMIT';
 
-self.addEventListener('fetch', async event => {
-  const cachedResponse = await caches.match(event.request);
-  if (cachedResponse)
-    return cachedResponse;
-  const responseFromNetwork = await fetch(event.request);
-  const cache = await caches.open(cacheName);
-  await cache.put(event.request, responseFromNetwork.clone());
-  return responseFromNetwork;
+self.addEventListener('fetch', event => {
+  event.respondWith((async () => {
+    const cachedResponse = await caches.match(event.request);
+    if (cachedResponse)
+      return cachedResponse;
+    const responseFromNetwork = await fetch(event.request);
+    const cache = await caches.open(cacheName);
+    await cache.put(event.request, responseFromNetwork.clone());
+    return responseFromNetwork;
+  })());
 });
 
 self.addEventListener('install', event => {
@@ -33,7 +35,9 @@ self.addEventListener('install', event => {
       '/style.css',
       '/fileloader.js',
       '/storage.js',
+      '/init.js',
       '/icons/mgba.ico',
+      '/icons/mgba-1024-square.png',
     ]);
   })());
 });
