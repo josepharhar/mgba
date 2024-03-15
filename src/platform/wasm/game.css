@@ -223,10 +223,14 @@ mgba-game .start::before {
   mgba-game .button-container {
     /* for some reason safe-area-inset-top is always zero on ios.
      * this makes the L and R buttons get chopped off by the top corners. */
-    padding-top: env(safe-area-inset-bottom);
     padding-left: 0;
     padding-right: 0;
-    height: calc(100% - 2 * env(safe-area-inset-bottom));
+    /* commenting out height so the buttons go all the way
+     * to the bottom of the screen. also padding-top for
+     * more vertical room. */
+    /*padding-top: env(safe-area-inset-bottom);*/
+    /*height: calc(100% - 2 * env(safe-area-inset-bottom));*/
+    height: 100%;
     width: 100%;
   }
   #canvas-container {
