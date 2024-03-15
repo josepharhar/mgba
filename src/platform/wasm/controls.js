@@ -1,3 +1,5 @@
+import MgbaGame from './game.js';
+
 const buttonNameToId = new Map();
 buttonNameToId.set('a', 0);
 buttonNameToId.set('b', 1);
@@ -35,8 +37,9 @@ export default class MgbaControls extends HTMLElement {
     const R = this.querySelector('.R');
     const start = this.querySelector('.start');
     const select = this.querySelector('.select');
+    const speed = this.querySelector('.speed');
 
-    [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select']].forEach(([element, buttonName]) => {
+    [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select'], [speed, 'speed']].forEach(([element, buttonName]) => {
       ['mousedown', 'touchstart'].forEach(eventName => {
         element.addEventListener(eventName, () => {
           this.buttonPress(buttonName);
@@ -99,11 +102,23 @@ export default class MgbaControls extends HTMLElement {
   }
 
   buttonPress(name) {
-    window.Module._buttonPress(buttonNameToId.get(name.toLowerCase()));
+    if (name === 'speed') {
+      window.Module._setMainLoopTiming(0, 0);
+    } else {
+      window.Module._buttonPress(buttonNameToId.get(name.toLowerCase()));
+    }
   }
 
   buttonUnpress(name) {
-    window.Module._buttonUnpress(buttonNameToId.get(name.toLowerCase()));
+    if (name === 'speed') {
+      if (MgbaGame.isSpeedToggled) {
+        window.Module._setMainLoopTiming(0, MgbaGame.fastLoopTiming);
+      } else {
+        window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
+      }
+    } else {
+      window.Module._buttonUnpress(buttonNameToId.get(name.toLowerCase()));
+    }
   }
 
   addShoulderRow(container) {
@@ -182,13 +197,22 @@ export default class MgbaControls extends HTMLElement {
     container.appendChild(menuRow);
     menuRow.classList.add('menu-row');
 
+    const menuSpeedContainer = document.createElement('div');
+    menuSpeedContainer.classList.add('menu-speed-container');
+    menuRow.appendChild(menuSpeedContainer);
+
     const menu = document.createElement('div');
     menu.classList.add('menu');
     menu.classList.add('button');
-    menuRow.appendChild(menu);
+    menuSpeedContainer.appendChild(menu);
     menu.onclick = () => {
       document.querySelector('mgba-game').appendChild(document.createElement('mgba-game-menu'));
     };
+
+    const speed = document.createElement('div');
+    speed.classList.add('speed');
+    speed.classList.add('button');
+    menuSpeedContainer.appendChild(speed);
 
     const selectStartContainer = document.createElement('div');
     selectStartContainer.classList.add('select-start-container');

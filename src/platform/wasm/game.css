@@ -170,20 +170,15 @@ mgba-game .menu-row {
   display: grid;
   grid-template-columns: 1fr auto;
 }
-mgba-game .menu::before {
-  content: 'MENU';
-}
-mgba-game .menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+mgba-game .menu-speed-container,
 mgba-game .select-start-container {
   width: var(--half-width-control);
   display: flex;
 }
 mgba-game .select,
-mgba-game .start {
+mgba-game .start,
+mgba-game .menu,
+mgba-game .speed {
   margin: 5px;
   display: flex;
   justify-content: center;
@@ -191,7 +186,8 @@ mgba-game .start {
 }
 mgba-game .select,
 mgba-game .start,
-mgba-game .menu {
+mgba-game .menu,
+mgba-game .speed {
   width: calc(2*var(--controls-scale));
   height: calc(var(--controls-scale));
 }
@@ -200,6 +196,12 @@ mgba-game .select::before {
 }
 mgba-game .start::before {
   content: 'START';
+}
+mgba-game .menu::before {
+  content: 'MENU';
+}
+mgba-game .speed::before {
+  content: 'SPEED';
 }
 
 
