@@ -16,6 +16,7 @@ self.addEventListener('fetch', event => {
 
 self.addEventListener('install', event => {
   console.log(`sw ${cacheName} install`);
+  self.skipWaiting();
   event.waitUntil((async () => {
     const cache = await caches.open(cacheName);
     await cache.addAll([
