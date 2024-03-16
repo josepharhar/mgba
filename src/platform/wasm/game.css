@@ -200,10 +200,6 @@ mgba-game .start::before {
 mgba-game .menu::before {
   content: 'MENU';
 }
-mgba-game .speed::before {
-  content: 'SPEED';
-}
-
 
 /* this is intended for mobile devices */
 @media (min-width: 481px) {

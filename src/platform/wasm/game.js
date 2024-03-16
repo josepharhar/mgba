@@ -4,12 +4,6 @@ import MgbaControls from './controls.js';
 import MgbaInit from './init.js';
 
 export default class MgbaGame extends HTMLElement {
-  // Use setTimeout with 16ms delays for 60fps.
-  // Ideally this would be 16.6666, but this has to be an integer...
-  static mainLoopTiming = 16;
-  static fastLoopTiming = 8;
-  static isSpeedToggled = false;
-
   async connectedCallback() {
     document.body.classList.add('in-game');
 

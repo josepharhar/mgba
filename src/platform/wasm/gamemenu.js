@@ -47,29 +47,6 @@ export default class MgbaGameMenu extends HTMLElement {
       window.Module._loadState(1);
     };
 
-    const speedToggleButton = document.createElement('button');
-    speedToggleButton.textContent = 'Toggle Speed';
-    dialog.appendChild(speedToggleButton);
-    const updateSpeedButtonText = () => {
-      const timing = window.Module._getMainLoopTiming();
-      if (!MgbaGame.isSpeedToggled) {
-        speedToggleButton.style.color = '';
-      } else {
-        speedToggleButton.style.color = 'red';
-      }
-    };
-    updateSpeedButtonText();
-    speedToggleButton.onclick = () => {
-      if (MgbaGame.isSpeedToggled) {
-        MgbaGame.isSpeedToggled = false;
-        window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
-      } else {
-        MgbaGame.isSpeedToggled = true;
-        window.Module._setMainLoopTiming(0, MgbaGame.fastLoopTiming);
-      }
-      updateSpeedButtonText();
-    };
-
     const controlsToggleButton = document.createElement('button');
     controlsToggleButton.textContent = 'Toggle Buttons';
     dialog.appendChild(controlsToggleButton);

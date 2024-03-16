@@ -1,5 +1,3 @@
-import MgbaGame from './game.js';
-
 const buttonNameToId = new Map();
 buttonNameToId.set('a', 0);
 buttonNameToId.set('b', 1);
@@ -16,8 +14,19 @@ for (const [key, value] of buttonNameToId) {
   buttonIdToName.set(value, key);
 }
 
+// Use setTimeout with 16ms delays for 60fps.
+// Ideally this would be 16.6666, but this has to be an integer...
+const normalLoopTiming = 16;
+const fastLoopTiming = 8;
+const infinityLoopTiming = 1;
+
 export default class MgbaControls extends HTMLElement {
   connectedCallback() {
+    // 0 is normalLoopTiming aka 1x
+    // 1 is fastLoopTiming aka 2x
+    // 2 is infinityLoopTiming
+    this.loopTiming = 0;
+
     this.addButtons();
   }
 
@@ -37,9 +46,8 @@ export default class MgbaControls extends HTMLElement {
     const R = this.querySelector('.R');
     const start = this.querySelector('.start');
     const select = this.querySelector('.select');
-    const speed = this.querySelector('.speed');
 
-    [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select'], [speed, 'speed']].forEach(([element, buttonName]) => {
+    [[A, 'A'], [B, 'B'], [L, 'L'], [R, 'R'], [start, 'start'], [select, 'select']].forEach(([element, buttonName]) => {
       ['mousedown', 'touchstart'].forEach(eventName => {
         element.addEventListener(eventName, () => {
           this.buttonPress(buttonName);
@@ -102,23 +110,11 @@ export default class MgbaControls extends HTMLElement {
   }
 
   buttonPress(name) {
-    if (name === 'speed') {
-      window.Module._setMainLoopTiming(0, 0);
-    } else {
-      window.Module._buttonPress(buttonNameToId.get(name.toLowerCase()));
-    }
+    window.Module._buttonPress(buttonNameToId.get(name.toLowerCase()));
   }
 
   buttonUnpress(name) {
-    if (name === 'speed') {
-      if (MgbaGame.isSpeedToggled) {
-        window.Module._setMainLoopTiming(0, MgbaGame.fastLoopTiming);
-      } else {
-        window.Module._setMainLoopTiming(0, MgbaGame.mainLoopTiming);
-      }
-    } else {
-      window.Module._buttonUnpress(buttonNameToId.get(name.toLowerCase()));
-    }
+    window.Module._buttonUnpress(buttonNameToId.get(name.toLowerCase()));
   }
 
   addShoulderRow(container) {
@@ -212,7 +208,25 @@ export default class MgbaControls extends HTMLElement {
     const speed = document.createElement('div');
     speed.classList.add('speed');
     speed.classList.add('button');
+    speed.textContent = '1x';
     menuSpeedContainer.appendChild(speed);
+    speed.onclick = () => {
+      if (this.loopTiming == 0) {
+        this.loopTiming = 1;
+        speed.textContent = '2x';
+        // TODO consider using EM_TIMING_RAF instead of EM_TIMING_SETTIMEOUT:
+        // https://emscripten.org/docs/api_reference/emscripten.h.html#c.emscripten_set_main_loop_timing
+        window.Module._setMainLoopTiming(0, fastLoopTiming);
+      } else if (this.loopTiming == 1) {
+        this.loopTiming = 2;
+        speed.textContent = '♾️';
+        window.Module._setMainLoopTiming(0, infinityLoopTiming);
+      } else {
+        this.loopTiming = 0;
+        speed.textContent = '1x';
+        window.Module._setMainLoopTiming(0, normalLoopTiming);
+      }
+    };
 
     const selectStartContainer = document.createElement('div');
     selectStartContainer.classList.add('select-start-container');
