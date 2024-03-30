@@ -85,8 +85,8 @@ mgba-game .controls-row {
 
 /* TODO implement pressed state for dpad */
 mgba-game .dpad {
-  height: var(--half-width-control);
-  width: var(--half-width-control);
+  height: calc(1.15 * var(--half-width-control));
+  width: calc(1.15 * var(--half-width-control));
 
   display: grid;
   grid-template-columns: auto auto auto;
@@ -145,8 +145,8 @@ mgba-game .dpad > .center::before {
 mgba-game .ab-container {
   display: grid;
   grid-template-columns: auto auto;
-  height: var(--half-width-control);
-  width: var(--half-width-control);
+  height: 100%;
+  width: calc(0.95 * var(--half-width-control));
 }
 mgba-game .ab-container > div {
   width: 100%;
