@@ -19,12 +19,14 @@ for (const [key, value] of buttonNameToId) {
 const normalLoopTiming = 16;
 const fastLoopTiming = 8;
 const infinityLoopTiming = 1;
+const slowLoopTiming = 64;
 
 export default class MgbaControls extends HTMLElement {
   connectedCallback() {
     // 0 is normalLoopTiming aka 1x
     // 1 is fastLoopTiming aka 2x
     // 2 is infinityLoopTiming
+    // 3 is slowLoopTiming aka 0.25x
     this.loopTiming = 0;
 
     this.addButtons();
@@ -221,10 +223,16 @@ export default class MgbaControls extends HTMLElement {
         this.loopTiming = 2;
         speed.textContent = '♾️';
         window.Module._setMainLoopTiming(0, infinityLoopTiming);
-      } else {
+      } else if (this.loopTiming == 2) {
+        this.loopTiming = 3;
+        speed.textContent = '0.25x';
+        window.Module._setMainLoopTiming(0, slowLoopTiming);
+      } else if (this.loopTiming == 3) {
         this.loopTiming = 0;
         speed.textContent = '1x';
         window.Module._setMainLoopTiming(0, normalLoopTiming);
+      } else {
+        console.error('unrecognized loopTiming: ' + this.loopTiming);
       }
     };
 
