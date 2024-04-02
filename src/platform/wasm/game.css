@@ -2,6 +2,8 @@ mgba-game {
   display: block;
   --controls-scale: min(13vw, 80px);
   --half-width-control: 47vw;
+  --dpad-width: calc(1.15 * var(--half-width-control));
+  --ab-width: calc(0.95 * var(--half-width-control));
 }
 
 body.in-game {
@@ -85,8 +87,8 @@ mgba-game .controls-row {
 
 /* TODO implement pressed state for dpad */
 mgba-game .dpad {
-  height: calc(1.15 * var(--half-width-control));
-  width: calc(1.15 * var(--half-width-control));
+  height: var(--dpad-width);
+  width: var(--dpad-width);
 
   display: grid;
   grid-template-columns: auto auto auto;
@@ -146,7 +148,7 @@ mgba-game .ab-container {
   display: grid;
   grid-template-columns: auto auto;
   height: 100%;
-  width: calc(0.95 * var(--half-width-control));
+  width: var(--ab-width);
 }
 mgba-game .ab-container > div {
   width: 100%;
@@ -235,7 +237,7 @@ mgba-game .menu::before {
     height: 100vh;
     position: fixed;
     display: grid;
-    grid-template-columns: var(--half-width-control) auto var(--half-width-control);
+    grid-template-columns: var(--dpad-width) auto var(--ab-width);
     width: 100vw;
     /*display: flex;*/
     z-index: -1; /* this makes the buttons pressable */
